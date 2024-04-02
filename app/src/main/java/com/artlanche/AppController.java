@@ -1,7 +1,14 @@
 package com.artlanche;
 
+import java.io.IOException;
+
+import com.artlanche.view.Layout;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -75,7 +82,14 @@ public class AppController {
      */
     @FXML
     void login() {
-        System.out.println("Funcionando!");
+        Parent telaPrincipal;
+        try {
+            telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException("Teste");
+        }
+        App.getTela().setScene(new Scene(telaPrincipal));
+        App.getTela().centerOnScreen(); // centraliza na tela
     }
 
 }
