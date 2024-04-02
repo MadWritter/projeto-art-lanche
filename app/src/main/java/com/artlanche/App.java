@@ -49,6 +49,7 @@ public class App extends Application {
 
         tela.getIcons().add(icone);
         tela.setTitle("Art Lanche");
+        tela.setResizable(false);
         tela.setScene(new Scene(root));
         tela.show();
     }

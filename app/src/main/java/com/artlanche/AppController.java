@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 /**
  * Classe controller do Layout AppLayout.fxml
@@ -31,7 +32,25 @@ public class AppController {
     private PasswordField campoSenha;
 
     /**
-     * Realiza a lógica de fazer cadastro
+     * Recebe outras funções ao inicializar o layout
+     */
+    @FXML
+    private void initialize() {
+        campoLogin.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        });
+
+        campoSenha.setOnKeyPressed(evento -> {
+            if (evento.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        });
+    }
+
+    /**
+     * Realiza a lógica de fazer cadastro quando clicar no botão Cadastre-se
      * Na prática, deve carregar outro layout e outro Controller
      * @param event - evento de clique do botão "Cadastre-se" na janela
      */
@@ -40,9 +59,23 @@ public class AppController {
 
     }
 
+    /**
+     * Realiza a lógica ao clicar no botão de fazer login
+     * @param event - que é disparado ao clicar no botão
+     */
     @FXML
     void fazerLogin(ActionEvent event) {
+        login();
+    }
 
+    /**
+     * Método que irá fazer o login
+     * Deve ser chamado ao apertar enter em um dos campos
+     * ou ao clicar no botão fazer login
+     */
+    @FXML
+    void login() {
+        System.out.println("Funcionando!");
     }
 
 }
