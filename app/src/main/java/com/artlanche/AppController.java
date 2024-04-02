@@ -89,7 +89,7 @@ public class AppController {
             throw new RuntimeException("Teste");
         }
         App.getTela().setScene(new Scene(telaPrincipal));
-        App.getTela().centerOnScreen(); // centraliza na tela
+        App.centralize(); // utilize essa centralização de tela
     }
 
 }

@@ -4,9 +4,11 @@ import com.artlanche.view.Layout;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -18,12 +20,11 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-
     /**
      * Objeto que representa a tela principal da aplicação
      * Deve ser usado para gerar/carregar outros layouts.
      */
-    private static Stage tela;  
+    private static Stage tela;
 
     /**
      * Carrega os módulos JavaFX da aplicação
@@ -52,6 +53,22 @@ public class App extends Application {
         tela.setResizable(false);
         tela.setScene(new Scene(root));
         tela.show();
+    }
+
+    /**
+     * Centraliza a tela da aplicação
+     * Deve ser usada sempre que precisar gerar um novo layout
+     */
+    public static void centralize() {
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+        // Calcula as coordenadas X e Y da janela para centralizá-la na tela
+        double centerX = (primaryScreenBounds.getWidth() - App.tela.getWidth()) / 2;
+        double centerY = (primaryScreenBounds.getHeight() - App.tela.getHeight()) / 2;
+
+        // Define a posição da janela
+        tela.setX(centerX);
+        tela.setY(centerY);
     }
 
     // Demais, somente getters e setters
