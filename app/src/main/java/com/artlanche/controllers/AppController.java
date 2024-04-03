@@ -1,7 +1,8 @@
-package com.artlanche;
+package com.artlanche.controllers;
 
 import java.io.IOException;
 
+import com.artlanche.App;
 import com.artlanche.view.Layout;
 
 import javafx.event.ActionEvent;

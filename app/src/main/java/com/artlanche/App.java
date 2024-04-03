@@ -60,9 +60,10 @@ public class App extends Application {
      * Deve ser usada sempre que precisar gerar um novo layout
      */
     public static void centralize() {
+        // recebe as dimensões da tela
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 
-        // Calcula as coordenadas X e Y da janela para centralizá-la na tela
+        // Calcula as coordenadas X e Y centrais da janela para centralizá-la na tela
         double centerX = (primaryScreenBounds.getWidth() - App.tela.getWidth()) / 2;
         double centerY = (primaryScreenBounds.getHeight() - App.tela.getHeight()) / 2;
 

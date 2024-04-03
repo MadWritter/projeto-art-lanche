@@ -37,8 +37,8 @@ public interface Layout {
     }
 
     /**
-     * Carrega para o layout um icone para ser usado na janela, 
-     * que está inserido no diretório padrão: resources/layouts
+     * Carrega um icone para ser usado na janela.
+     * Todos os ícones devem ficar em resources/icons
      * @param icon - o ícone que deve ser carregado
      * @return um objeto String com o caminho relativo do Ícone
      * @throws NullPointerException caso o icone passado como argumento seja nulo 

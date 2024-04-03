@@ -1,2 +1,3 @@
 .vscode
 app/target
+config/database/connection.properties

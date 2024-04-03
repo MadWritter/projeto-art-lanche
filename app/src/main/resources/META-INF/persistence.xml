@@ -1,0 +1,31 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="usuarios">   
+        <description>
+            Unidade de persistência destinada a manipular os usuários do sistema
+        </description>
+
+        <class></class>     
+
+        <properties>    
+            <!-- Configurações de conexão com o banco -->
+            <!-- Dados serão configurados a partir do Entity Manager Factory -->
+            <property name="jakarta.persistence.jdbc.url" value="" />
+            <property name="jakarta.persistence.jdbc.user" value="" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
+
+            <!-- Não permita a JPA manipular o banco -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="none" />
+
+            <!-- Não exiba o SQL no console em produção -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.highlight_sql" value="true" />
+       </properties>
+
+    </persistence-unit>
+
+</persistence>
