@@ -34,7 +34,7 @@ public class Database {
 
     /**
      * Faz a checagem das tabelas do banco de dados. 
-     * Todo SQL deve estar inserido em config/database/sql 
+     * Qualquer SQL deve estar inserido em config/database/sql
      * com declarações terminadas em ";", além de que os
      * arquivos que desejam ser executados para verificação precisam estar
      * inseridos neste método.

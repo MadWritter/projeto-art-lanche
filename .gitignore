@@ -2,3 +2,4 @@
 app/target
 config/database/connection.properties
 app/app.iml
+.idea

@@ -50,21 +50,19 @@ public class Usuario {
      * @param email - opcional
      * @param login - para autenticar no sistema
      * @param senha - para autenticar no sistema
-     * @param role - somente adm ou comum
-     * @param ativo - padrão true quando novo usuário é criado
      * @throws IllegalArgumentException nos campos nome, cpf, email, login, senha e role 
      * caso estejam nulos ou vazios
      */
     public Usuario(String nome, String cpf, String email, String login, 
-                    String senha, String role, boolean ativo) {
+                    String senha) {
                 
             setNome(nome);
             setCpf(cpf);
             setEmail(email);
             setLogin(login);
             setSenha(senha);
-            setRole(role);
-            setAtivo(ativo);
+            setRole("comum");
+            setAtivo(true);
     }
 
     // Setters

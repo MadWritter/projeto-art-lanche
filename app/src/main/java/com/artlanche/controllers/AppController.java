@@ -74,7 +74,14 @@ public class AppController {
     @SuppressWarnings("unused")
     @FXML
     void fazerCadastro(ActionEvent event) {
-        //TODO implementar a regra de cadastro
+        Parent telaCadastro;
+        try {
+            telaCadastro = FXMLLoader.load(Layout.loader("CadastroLayout.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException("Não foi possível carregar o layout CadastroLayout.fxml" + e.getMessage());
+        }
+        App.getTela().setScene(new Scene(telaCadastro));
+        App.getTela().centerOnScreen();
     }
 
     /**
@@ -82,6 +89,7 @@ public class AppController {
      * 
      * @param event - que é disparado ao clicar no botão
      */
+    @SuppressWarnings("unused")
     @FXML
     void fazerLogin(ActionEvent event) {
         String login = campoLogin.getText();
@@ -105,10 +113,10 @@ public class AppController {
             try {
                 telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
             } catch (IOException e) {
-                throw new RuntimeException("Teste");
+                throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());
             }
             App.getTela().setScene(new Scene(telaPrincipal));
-            App.centralize(); // utilize essa centralização de tela
+            App.getTela().centerOnScreen();
         } else {
             JOptionPane.showMessageDialog(null, "Dados incorretos, verifique os campos e tente novamente", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
         }

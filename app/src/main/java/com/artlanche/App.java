@@ -57,23 +57,6 @@ public class App extends Application {
         tela.show();
     }
 
-    /**
-     * Centraliza a tela da aplicação
-     * Deve ser usada sempre que precisar gerar um novo layout
-     */
-    public static void centralize() {
-        // recebe as dimensões da tela
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-
-        // Calcula as coordenadas X e Y centrais da janela para centralizá-la na tela
-        double centerX = (primaryScreenBounds.getWidth() - App.tela.getWidth()) / 2;
-        double centerY = (primaryScreenBounds.getHeight() - App.tela.getHeight()) / 2;
-
-        // Define a posição da janela
-        tela.setX(centerX);
-        tela.setY(centerY);
-    }
-
     // Demais, somente setters
 
     public static void setTela(Stage valor) {

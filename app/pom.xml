@@ -37,7 +37,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
             <scope>compile</scope>
-        </dependency>                    
+        </dependency>
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
