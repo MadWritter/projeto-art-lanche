@@ -8,7 +8,7 @@
             Unidade de persistência destinada a manipular os usuários do sistema
         </description>
 
-        <class></class>     
+        <class>com.artlanche.model.entities.Usuario</class>     
 
         <properties>    
             <!-- Configurações de conexão com o banco -->
@@ -21,9 +21,9 @@
             <property name="jakarta.persistence.schema-generation.database.action" value="none" />
 
             <!-- Não exiba o SQL no console em produção -->
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.highlight_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.highlight_sql" value="false" />
        </properties>
 
     </persistence-unit>

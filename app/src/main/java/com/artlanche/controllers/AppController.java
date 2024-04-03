@@ -2,7 +2,11 @@ package com.artlanche.controllers;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import com.artlanche.App;
+import com.artlanche.model.entities.Usuario;
+import com.artlanche.model.transaction.Login;
 import com.artlanche.view.Layout;
 
 import javafx.event.ActionEvent;
@@ -46,13 +50,17 @@ public class AppController {
     private void initialize() {
         campoLogin.setOnKeyPressed(evento -> {
             if (evento.getCode() == KeyCode.ENTER) {
-                login();
+                String login = campoLogin.getText();
+                String senha = campoSenha.getText();
+                login(login, senha);
             }
         });
 
         campoSenha.setOnKeyPressed(evento -> {
             if (evento.getCode() == KeyCode.ENTER) {
-                login();
+                String login = campoLogin.getText();
+                String senha = campoSenha.getText();
+                login(login, senha);
             }
         });
     }
@@ -60,6 +68,7 @@ public class AppController {
     /**
      * Realiza a lógica de fazer cadastro quando clicar no botão Cadastre-se
      * Na prática, deve carregar outro layout e outro Controller
+     * 
      * @param event - evento de clique do botão "Cadastre-se" na janela
      */
     @FXML
@@ -69,11 +78,14 @@ public class AppController {
 
     /**
      * Realiza a lógica ao clicar no botão de fazer login
+     * 
      * @param event - que é disparado ao clicar no botão
      */
     @FXML
     void fazerLogin(ActionEvent event) {
-        login();
+        String login = campoLogin.getText();
+        String senha = campoSenha.getText();
+        login(login, senha);
     }
 
     /**
@@ -82,15 +94,24 @@ public class AppController {
      * ou ao clicar no botão fazer login
      */
     @FXML
-    void login() {
-        Parent telaPrincipal;
-        try {
-            telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException("Teste");
+    void login(String login, String senha) {
+
+        Usuario usuarioConsultado = Login.fazerLogin(login, senha);
+
+        if (usuarioConsultado != null) {
+            JOptionPane.showConfirmDialog(null, "Bem vindo, " + usuarioConsultado.getNome() , "Autenticado com sucesso!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            Parent telaPrincipal;
+            try {
+                telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException("Teste");
+            }
+            App.getTela().setScene(new Scene(telaPrincipal));
+            App.centralize(); // utilize essa centralização de tela
+        } else {
+            JOptionPane.showMessageDialog(null, "Dados incorretos, verifique os campos e tente novamente", "Erro de Autenticação", 0);
         }
-        App.getTela().setScene(new Scene(telaPrincipal));
-        App.centralize(); // utilize essa centralização de tela
+
     }
 
 }

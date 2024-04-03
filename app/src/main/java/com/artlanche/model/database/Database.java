@@ -33,7 +33,6 @@ public class Database {
         return emf.createEntityManager();
     }
 
-    // TODO fazer a verificação do banco de dados
     /**
      * Faz a checagem das tabelas do banco de dados. 
      * Todo SQL deve estar inserido em config/database/sql 
