@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.Getter;
 
 /**
  * Classe principal que inicia a tela de login
@@ -24,6 +25,7 @@ public class App extends Application {
      * Objeto que representa a tela principal da aplicação
      * Deve ser usado para gerar/carregar outros layouts.
      */
+    @Getter
     private static Stage tela;
 
     /**
@@ -72,11 +74,7 @@ public class App extends Application {
         tela.setY(centerY);
     }
 
-    // Demais, somente getters e setters
-
-    public static Stage getTela() {
-        return tela;
-    }
+    // Demais, somente setters
 
     public static void setTela(Stage valor) {
         if (valor == null) {

@@ -71,9 +71,10 @@ public class AppController {
      * 
      * @param event - evento de clique do botão "Cadastre-se" na janela
      */
+    @SuppressWarnings("unused")
     @FXML
     void fazerCadastro(ActionEvent event) {
-
+        //TODO implementar a regra de cadastro
     }
 
     /**
@@ -109,7 +110,7 @@ public class AppController {
             App.getTela().setScene(new Scene(telaPrincipal));
             App.centralize(); // utilize essa centralização de tela
         } else {
-            JOptionPane.showMessageDialog(null, "Dados incorretos, verifique os campos e tente novamente", "Erro de Autenticação", 0);
+            JOptionPane.showMessageDialog(null, "Dados incorretos, verifique os campos e tente novamente", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
         }
 
     }

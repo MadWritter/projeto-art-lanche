@@ -16,7 +16,6 @@ import jakarta.persistence.Persistence;
 
 /**
  * Classe responsável por realizar tarefas do banco de dados
- * 
  * Todas as unidades de persistência devem ser configuradas pela 
  * interface Settings
  * @since 1.0
@@ -47,12 +46,7 @@ public class Database {
              * CREATE TABLE IF NOT EXISTS ... etc
              */
             executeSQLFile(con, loadSql("create-table-usuarios.sql"));
-            
 
-            // toda verificação usa o método acima
-            // e também deve estar acima do encerramento da conexão
-            // que é este método abaixo
-            con.close();
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Um ou mais Arquivos SQL não foram executados" + e.getMessage());
         }
@@ -60,7 +54,7 @@ public class Database {
 
     /**
      * Gera uma conexão com o banco de dados
-     * @return
+     * @return - uma interface Connection com o drive de conexão
      * @throws SQLException caso o driver não consiga a conexão
      */
     private static Connection getConnection() throws SQLException {
@@ -103,17 +97,16 @@ public class Database {
      * Carrega o arquivo sql. 
      * Vale ressaltar que todos os arquivos sql devem estar em
      * config/database/sql
-     * @param sqlFile
-     * @return
+     * @param sqlFile - nome do arquivo sql
+     * @return uma String com o path do arquivo
      */
     private static String loadSql(String sqlFile) {
         if (sqlFile == null || sqlFile.isBlank()) {
             throw new IllegalArgumentException("Arquivo de SQL não encontrado em config/database/sql");
         } else {
         // caminho relativo do arquivo sql solicitado
-        String path = System.getProperty("user.dir") + File.separator + "config" + File.separator +
+        return System.getProperty("user.dir") + File.separator + "config" + File.separator +
                         "database" + File.separator + "sql" + File.separator + sqlFile;
-            return path;
         }
     }
 }

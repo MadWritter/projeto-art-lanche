@@ -24,7 +24,7 @@ public class Login {
      * sejam nulos ou vazios.
      */
     public static Usuario fazerLogin(String login, String senha) {
-        if (login.isBlank() || login == null || senha.isBlank() || senha == null) {
+        if (login.isBlank() || senha.isBlank()) {
             throw new IllegalArgumentException("Login ou senha informados são nulos ou vazios");
         }
         

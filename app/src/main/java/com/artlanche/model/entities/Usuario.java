@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
 @Table(name = "usuarios")
 public class Usuario {
 
@@ -29,7 +31,7 @@ public class Usuario {
     private String nome;
     @Column(length = 200, nullable = false)
     private String cpf;
-    @Column(length = 200, nullable = true)
+    @Column(length = 200)
     private String email;
     @Column(length = 200, nullable = false)
     private String login;
@@ -43,13 +45,13 @@ public class Usuario {
     /**
      * Construtor padrão que deve ser usado para criar um usuário no banco
      * 
-     * @param nome
-     * @param cpf
-     * @param email
-     * @param login
-     * @param senha
-     * @param role
-     * @param ativo
+     * @param nome - do usuário
+     * @param cpf - somente texto
+     * @param email - opcional
+     * @param login - para autenticar no sistema
+     * @param senha - para autenticar no sistema
+     * @param role - somente adm ou comum
+     * @param ativo - padrão true quando novo usuário é criado
      * @throws IllegalArgumentException nos campos nome, cpf, email, login, senha e role 
      * caso estejam nulos ou vazios
      */
@@ -65,12 +67,7 @@ public class Usuario {
             setAtivo(ativo);
     }
 
-    // Getters e Setters
-
-    public String getNome() {
-        return nome;
-    }
-
+    // Setters
     
     public void setNome(String nome) {
         if (nome == null || nome.isBlank()) {
@@ -80,20 +77,12 @@ public class Usuario {
         }
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
     public void setCpf(String cpf) {
         if (cpf == null || cpf.isBlank()) {
             throw new IllegalArgumentException("Argumento nulo ou vazio para CPF");
         } else {
             this.cpf = cpf;
         }
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     // Email não é obrigatório
@@ -105,20 +94,12 @@ public class Usuario {
         }
     }
 
-    public String getLogin() {
-        return login;
-    }
-
     public void setLogin(String login) {
         if (login == null || login.isBlank()) {
             throw new IllegalArgumentException("Argumento nulo ou vazio para login");
         } else {
             this.login = login;
         }
-    }
-
-    public String getSenha() {
-        return senha;
     }
 
     public void setSenha(String senha) {
@@ -129,20 +110,14 @@ public class Usuario {
         }
     }
 
-    public String getRole() {
-        return role;
-    }
-
     public void setRole(String role) {
         if (role == null || role.isBlank()) {
             throw new IllegalArgumentException("Argumento nulo ou vazio para role");
-        } else {
+        } else if (role.equals("adm") || role.equals("comum")) {
             this.role = role;
+        } else {
+            throw new IllegalArgumentException("Role passada é inválida");
         }
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
     }
 
     public void setAtivo(boolean ativo) {
