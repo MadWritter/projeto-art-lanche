@@ -1,6 +1,7 @@
 package com.artlanche.model.database;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -42,10 +43,7 @@ interface Settings {
         Properties prop = new Properties();
         String path = System.getProperty("user.dir") + File.separator + "config" + File.separator + "database" + File.separator + "connection.properties";
 
-        try (InputStream input = Settings.class.getResourceAsStream(path)) {
-            if (input == null) {
-                throw new IllegalArgumentException("O arquivo de configuração do banco de dados não foi encontrado: " + path);
-            }
+        try (InputStream input = new FileInputStream(path)) {
             prop.load(input);
             return prop;
         } catch (IOException e) {

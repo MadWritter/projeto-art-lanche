@@ -1,5 +1,6 @@
 package com.artlanche.model.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,19 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 200, nullable = false)
     private String nome;
+    @Column(length = 200, nullable = false)
     private String cpf;
+    @Column(length = 200, nullable = true)
     private String email;
+    @Column(length = 200, nullable = false)
     private String login;
+    @Column(length = 200, nullable = false)
     private String senha;
+    @Column(length = 5, nullable = false)
     private String role; // somente adm ou comum
+    @Column(nullable = false)
     private Boolean ativo;
 
     /**
