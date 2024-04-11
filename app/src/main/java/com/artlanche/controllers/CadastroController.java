@@ -24,11 +24,9 @@ import java.io.IOException;
 public class CadastroController {
 
     @FXML
-    @SuppressWarnings("unused")
     private Button botaoCadastro;
 
     @FXML
-    @SuppressWarnings("unused")
     private Button botaoVoltar;
 
     @FXML
@@ -51,7 +49,6 @@ public class CadastroController {
      * @param event - evento de clique do botão cadastrar
      */
     @FXML
-    @SuppressWarnings("unused")
     void fazerCadastro(ActionEvent event) {
         String nome = campoNome.getText();
         String cpf = campoCPF.getText();
@@ -83,7 +80,6 @@ public class CadastroController {
      * @param event - evento de clique do botão voltar
      */
     @FXML
-    @SuppressWarnings("unused")
     void voltarTelaInicial(ActionEvent event) {
         Parent telaInicial;
         try {

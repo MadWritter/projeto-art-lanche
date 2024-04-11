@@ -71,7 +71,6 @@ public class AppController {
      * 
      * @param event - evento de clique do botão "Cadastre-se" na janela
      */
-    @SuppressWarnings("unused")
     @FXML
     void fazerCadastro(ActionEvent event) {
         Parent telaCadastro;
@@ -89,7 +88,6 @@ public class AppController {
      * 
      * @param event - que é disparado ao clicar no botão
      */
-    @SuppressWarnings("unused")
     @FXML
     void fazerLogin(ActionEvent event) {
         String login = campoLogin.getText();
