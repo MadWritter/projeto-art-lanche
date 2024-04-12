@@ -1,11 +1,11 @@
 package com.artlanche.model.transaction;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.artlanche.JanelaCaixa;
 import com.artlanche.model.database.Database;
 import com.artlanche.model.entities.Caixa;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import javafx.scene.control.Alert;
@@ -24,17 +24,37 @@ public class RegistrarCaixa {
             em.getTransaction().begin();
             em.persist(caixa);
             em.getTransaction().commit();
+
             Alert alerta = new Alert(AlertType.INFORMATION);
             alerta.setTitle("Sucesso!");
             alerta.setHeaderText("Caixa criado com sucesso");
             alerta.showAndWait();
             JanelaCaixa.fecharJanelaCaixa();
+
         } catch (Exception e) {
+
             Alert alerta = new Alert(AlertType.ERROR);
             alerta.setTitle("Erro");
             alerta.setHeaderText("Erro ao cadastrar o caixa no banco, tente novamente");
             alerta.showAndWait();
             throw new PersistenceException("Erro ao cadastrar na base de dados" + e.getMessage());
+
+        }
+    }
+
+    public static Caixa verificarSeCaixaAberto() {
+        try(EntityManager em = Database.getCaixaManager()) {
+            em.getTransaction().begin();
+            var query = em.createQuery("SELECT c FROM Caixa c WHERE c.ativo=true", Caixa.class);
+
+            List<Caixa> resultList = query.getResultList();
+            if (!resultList.isEmpty()) {
+                return resultList.get(0);
+            } else {
+                return null;
+            }
+        } catch(Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
