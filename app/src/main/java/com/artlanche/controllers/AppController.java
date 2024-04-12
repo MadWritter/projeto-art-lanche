@@ -2,8 +2,6 @@ package com.artlanche.controllers;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 import com.artlanche.App;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.Login;
@@ -14,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -106,7 +106,12 @@ public class AppController {
         Usuario usuarioConsultado = Login.fazerLogin(login, senha);
 
         if (usuarioConsultado != null) {
-            JOptionPane.showConfirmDialog(null, "Bem vindo, " + usuarioConsultado.getNome() , "Autenticado com sucesso!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+            Alert alertaLogin = new Alert(AlertType.INFORMATION);
+            alertaLogin.setTitle("Autenticado com sucesso");
+            alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
+            alertaLogin.showAndWait();
+            
             Parent telaPrincipal;
             try {
                 telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
@@ -116,7 +121,10 @@ public class AppController {
             App.getTela().setScene(new Scene(telaPrincipal));
             App.getTela().centerOnScreen();
         } else {
-            JOptionPane.showMessageDialog(null, "Dados incorretos, verifique os campos e tente novamente", "Erro de Autenticação", JOptionPane.ERROR_MESSAGE);
+            Alert alertaDadosIncorretos = new Alert(AlertType.ERROR);
+            alertaDadosIncorretos.setTitle("Autenticação Falhou");
+            alertaDadosIncorretos.setHeaderText("Dados incorretos, tente novamente");
+            alertaDadosIncorretos.showAndWait();
         }
 
     }

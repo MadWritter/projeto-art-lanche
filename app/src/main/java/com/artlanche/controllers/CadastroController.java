@@ -46,6 +46,7 @@ public class CadastroController {
 
     /**
      * Chama a função para realizar o cadastro
+     * Depois de cadastrar, retorna para a tela inicial
      * @param event - evento de clique do botão cadastrar
      */
     @FXML
@@ -62,7 +63,7 @@ public class CadastroController {
             boolean cadastrou = Cadastrar.novoUsuario(nome, cpf, email, login, senha);
 
             if (cadastrou) {
-                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!\nBem vindo, " + nome, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 Parent telaInicial;
                 try {
                     telaInicial = FXMLLoader.load(Layout.loader("AppLayout.fxml"));

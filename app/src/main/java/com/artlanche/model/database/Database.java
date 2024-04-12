@@ -46,6 +46,7 @@ public class Database {
              * CREATE TABLE IF NOT EXISTS ... etc
              */
             executeSQLFile(con, loadSql("create-table-usuarios.sql"));
+            executeSQLFile(con, loadSql("create-table-caixa.sql"));
 
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Um ou mais Arquivos SQL não foram executados" + e.getMessage());
