@@ -6,7 +6,6 @@ import com.artlanche.App;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.Login;
 import com.artlanche.view.Layout;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -111,6 +110,8 @@ public class AppController {
             alertaLogin.setTitle("Autenticado com sucesso");
             alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
             alertaLogin.showAndWait();
+            
+            TelaPrincipalController.usuarioAtual = usuarioConsultado;
             
             Parent telaPrincipal;
             try {

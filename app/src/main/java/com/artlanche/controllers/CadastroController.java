@@ -1,5 +1,7 @@
 package com.artlanche.controllers;
 
+import java.io.IOException;
+
 import com.artlanche.App;
 import com.artlanche.model.transaction.Cadastrar;
 import com.artlanche.view.Layout;
@@ -9,13 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-
-import javax.swing.*;
-import java.io.IOException;
 
 /**
  * Controller do layout de cadastro do sistema

@@ -1,9 +1,11 @@
 CREATE TABLE IF NOT EXISTS caixa(
     id BIGSERIAL NOT NULL PRIMARY KEY,
-    valor-inicial DECIMAL NOT NULL,
-    valor-final DECIMAL,
-    data-abertura DATE NOT NULL,
-    data-fechamento DATE,
+    valor_inicial DECIMAL NOT NULL,
+    valor_final DECIMAL,
+    data_abertura DATE NOT NULL,
+    data_fechamento DATE,
+    opAbertura VARCHAR(200) NOT NULL,
+    opFechamento VARCHAR(200),
     lucro DECIMAL,
     aberto BOOLEAN NOT NULL
-)
+);

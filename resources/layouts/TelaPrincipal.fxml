@@ -48,10 +48,10 @@
         <Menu mnemonicParsing="false" text="Abrir">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#novoCaixa" text="Novo Caixa" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#caixaExistente" text="Caixa Existente" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#fecharCaixa" text="Fechar Caixa" />
-            <SeparatorMenuItem mnemonicParsing="false" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#sair" text="Sair do Programa" />
           </items>

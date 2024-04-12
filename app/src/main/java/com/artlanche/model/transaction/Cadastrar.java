@@ -1,12 +1,13 @@
 package com.artlanche.model.transaction;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.artlanche.model.database.Database;
 import com.artlanche.model.entities.Usuario;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
-
-import javax.swing.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Classe responsável por cadastrar um usuário no banco
@@ -37,7 +38,10 @@ public class Cadastrar {
             em.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar no banco de dados\nTente novamente", "Erro", JOptionPane.ERROR_MESSAGE);
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Erro");
+            alerta.setHeaderText("Erro ao cadastrar o usuário no banco, tente novamente");
+            alerta.showAndWait();
             throw new PersistenceException("Erro ao cadastrar na base de dados" + e.getMessage());
         }
     }

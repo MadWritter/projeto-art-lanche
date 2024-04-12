@@ -1,6 +1,7 @@
 package com.artlanche.controllers;
 
 import com.artlanche.JanelaCaixa;
+import com.artlanche.model.entities.Usuario;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,11 @@ import javafx.scene.control.ButtonType;
  * @author Jean Maciel
  */
 public class TelaPrincipalController {
+
+
+    //TODO atualizar a view baseada em um caixa existente
+
+    public static Usuario usuarioAtual;
 
     @FXML
     void caixaExistente(ActionEvent event) {

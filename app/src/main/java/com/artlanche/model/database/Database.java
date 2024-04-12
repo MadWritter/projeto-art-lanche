@@ -32,6 +32,11 @@ public class Database {
         return emf.createEntityManager();
     }
 
+    public static EntityManager getCaixaManager() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios", Settings.configureDatabase());
+        return emf.createEntityManager();
+    }
+
     /**
      * Faz a checagem das tabelas do banco de dados. 
      * Qualquer SQL deve estar inserido em config/database/sql

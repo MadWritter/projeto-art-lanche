@@ -26,14 +26,18 @@ public class Caixa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
-    @Column(name = "valor-inicial")
+    @Column(name = "valor_inicial")
     private double valorInicial;
-    @Column(name = "valor-final")
+    @Column(name = "valor_final")
     private double valorFinal;
-    @Column(name = "data-abertura")
+    @Column(name = "data_abertura")
     private Date dataAbertura;
-    @Column(name = "data-fechamento")
+    @Column(name = "data_fechamento")
     private Date dataFechamento;
+    @Column(name = "opAbertura")
+    private String opAbertura;
+    @Column(name = "opFechamento")
+    private String opFechamento;
     private double lucro;
     private boolean aberto;
 
@@ -47,12 +51,13 @@ public class Caixa {
      * @param mes - mes de abertura
      * @param ano - ano de abertura
      */
-    public Caixa(double valorInicial, double valorFinal, int dia, int mes, int ano) {
+    public Caixa(double valorInicial, double valorFinal, int dia, int mes, int ano, String opAbertura) {
         setValorInicial(valorInicial);
         setValorFinal(valorFinal);
         setLucro(0.0);
         setAberto(true);
         setDataAbertura(dia, mes, ano);
+        setOpAbertura(opAbertura);
     }
 
     public void setValorInicial(double valorInicial) {
@@ -66,6 +71,18 @@ public class Caixa {
     }
     public void setAberto(boolean aberto) {
         this.aberto = aberto;
+    }
+
+    public void setOpAbertura(String nome) {
+        if (nome != null) {
+            this.opAbertura = nome;
+        }
+    }
+
+    public void setOpFechamento(String nome) {
+        if (nome != null) {
+            this.opFechamento = nome;
+        }
     }
     
     /**

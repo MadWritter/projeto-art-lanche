@@ -1,11 +1,16 @@
 package com.artlanche.controllers;
 
-import com.artlanche.JanelaCaixa;
+import java.time.LocalDate;
 
+import com.artlanche.JanelaCaixa;
+import com.artlanche.model.transaction.RegistrarCaixa;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+
 /**
  * Classe controller dos eventos de abertura do caixa
  * @since 1.0
@@ -26,7 +31,23 @@ public class AberturaCaixaController {
 
     @FXML
     void confirmarAbertura(ActionEvent event) {
-        //TODO criar a entidade baseada na data e valor inicial do caixa
+        if (campoValorInicial != null && DataAbertura != null) {
+            Double valorInicial;
+            LocalDate dataAbertura;
+            try {
+
+                valorInicial = Double.parseDouble(campoValorInicial.getText().replace(",", "."));
+                dataAbertura = DataAbertura.getValue();
+
+                RegistrarCaixa.novoCaixa(valorInicial, dataAbertura, TelaPrincipalController.usuarioAtual.getNome());
+
+            } catch (NumberFormatException e) {
+                Alert alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Erro");
+                alerta.setHeaderText("O valor do caixa inserido está incorreto");
+                alerta.showAndWait();
+            }
+        }
     }
 
 }
