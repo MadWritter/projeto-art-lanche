@@ -8,9 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -58,12 +60,18 @@ public class CadastroController {
         String senha = campoSenha.getText();
 
         if (nome.isBlank() || cpf.isBlank() || login.isBlank() || senha.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Um dos campos obrigatórios está vazio", "Alerta", JOptionPane.ERROR_MESSAGE);
+            Alert alertaCamposVazios = new Alert(AlertType.WARNING);
+            alertaCamposVazios.setTitle("Aviso");
+            alertaCamposVazios.setHeaderText("Um dos campos obrigatórios está vazio!");
+            alertaCamposVazios.showAndWait();
         } else {
             boolean cadastrou = Cadastrar.novoUsuario(nome, cpf, email, login, senha);
 
             if (cadastrou) {
-                JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                Alert cadastroSucesso = new Alert(AlertType.INFORMATION);
+                cadastroSucesso.setTitle("Sucesso");
+                cadastroSucesso.setHeaderText("Cadastro efetuado com sucesso!");
+                cadastroSucesso.showAndWait();
                 Parent telaInicial;
                 try {
                     telaInicial = FXMLLoader.load(Layout.loader("AppLayout.fxml"));
