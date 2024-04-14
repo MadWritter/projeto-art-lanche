@@ -1,6 +1,6 @@
 package com.artlanche;
 
-import com.artlanche.model.database.Database;
+import com.artlanche.model.transaction.Database;
 
 /**
  * Classe inicial do programa

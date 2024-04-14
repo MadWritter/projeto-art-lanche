@@ -3,19 +3,30 @@ package com.artlanche.model.transaction;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.artlanche.JanelaCaixa;
-import com.artlanche.model.database.Database;
 import com.artlanche.model.entities.Caixa;
+import com.artlanche.view.JanelaCaixa;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+/**
+ * Classe que representa os transações de caixa
+ * 
+ * @since 1.0
+ * @author Jean Maciel
+ */
+public class CaixaDAO {
 
-public class RegistrarCaixa {
 
-
+    /**
+     * Faz o registro de um novo caixa
+     * @param valorInicial - o valor do caixa para passagem de troco
+     * @param dataAbertura - data de abertura do caixa
+     * @param nome - nome do operador/usuário que abriu o caixa
+     */
     public static void novoCaixa(Double valorInicial, LocalDate dataAbertura, String nome) {
-        // Gera um objeto caixa com os valores
+        // Gera uma entidade caixa com os valores
         Caixa caixa = 
             new Caixa(valorInicial, 0, dataAbertura.getDayOfMonth(), dataAbertura.getMonthValue(), dataAbertura.getYear(), nome);
 
@@ -31,7 +42,7 @@ public class RegistrarCaixa {
             alerta.showAndWait();
             JanelaCaixa.fecharJanelaCaixa();
 
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
 
             Alert alerta = new Alert(AlertType.ERROR);
             alerta.setTitle("Erro");
@@ -42,10 +53,15 @@ public class RegistrarCaixa {
         }
     }
 
+    /**
+     * Feito para verificar na inicialização da tela principal
+     * se o caixa está aberto
+     * @return um Caixa(caso exista) ou null(caso não exista
+     */
     public static Caixa verificarSeCaixaAberto() {
         try(EntityManager em = Database.getCaixaManager()) {
             em.getTransaction().begin();
-            var query = em.createQuery("SELECT c FROM Caixa c WHERE c.ativo=true", Caixa.class);
+            var query = em.createQuery("SELECT c FROM Caixa c WHERE c.aberto=true", Caixa.class);
 
             List<Caixa> resultList = query.getResultList();
             if (!resultList.isEmpty()) {

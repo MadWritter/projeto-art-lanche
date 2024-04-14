@@ -1,4 +1,4 @@
-package com.artlanche.model.database;
+package com.artlanche.model.transaction;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,24 +15,24 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 /**
- * Classe responsável por realizar tarefas do banco de dados
+ * Interface responsável por realizar tarefas do banco de dados
  * Todas as unidades de persistência devem ser configuradas pela 
  * interface Settings
  * @since 1.0
  * @author Jean Maciel
  */
-public class Database {
+public interface Database {
     
     /**
      * Carrega um Entity Manager baseado na entidade Usuário
      * @return uma instância de um Entity Manager
      */
-    public static EntityManager getUserManager() {
+    static EntityManager getUserManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios", Settings.configureDatabase());
         return emf.createEntityManager();
     }
 
-    public static EntityManager getCaixaManager() {
+    static EntityManager getCaixaManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios", Settings.configureDatabase());
         return emf.createEntityManager();
     }

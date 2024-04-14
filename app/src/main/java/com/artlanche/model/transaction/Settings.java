@@ -1,4 +1,4 @@
-package com.artlanche.model.database;
+package com.artlanche.model.transaction;
 
 import java.io.File;
 import java.io.FileInputStream;

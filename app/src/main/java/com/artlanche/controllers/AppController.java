@@ -4,9 +4,8 @@ import java.io.IOException;
 
 import com.artlanche.App;
 import com.artlanche.model.entities.Usuario;
-import com.artlanche.model.transaction.Login;
+import com.artlanche.model.transaction.LoginDAO;
 import com.artlanche.view.Layout;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -107,7 +106,7 @@ public class AppController {
     @FXML
     void login(String login, String senha) {
 
-        Usuario usuarioConsultado = Login.fazerLogin(login, senha);
+        Usuario usuarioConsultado = LoginDAO.fazerLogin(login, senha);
 
         if (usuarioConsultado != null) {
 

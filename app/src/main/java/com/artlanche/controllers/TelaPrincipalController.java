@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 import com.artlanche.JanelaCaixa;
 import com.artlanche.model.entities.Caixa;
 import com.artlanche.model.entities.Usuario;
+import com.artlanche.model.transaction.CaixaDAO;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,7 +50,38 @@ public class TelaPrincipalController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //TODO implementar a Thread que vai ficar monitorando se existe um caixa.
+        Thread thread = new Thread(() -> {
+            int contador = 0;
+
+            while(consultaCaixa == null) {
+                consultaCaixa = CaixaDAO.verificarSeCaixaAberto();
+
+                if (consultaCaixa != null) {
+                    if (contador == 0) {
+                        Platform.runLater(() -> {
+                            Alert alerta = new Alert(AlertType.INFORMATION);
+                            alerta.setTitle("Aviso!");
+                            alerta.setHeaderText("Já existe um caixa aberto!");
+                            alerta.showAndWait();
+                        });
+                    }
+
+                    Platform.runLater(() -> {
+                        painel.getChildren().remove(rotuloCaixaFechado);
+                    });
+                } else {
+                    contador++;
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch(InterruptedException e) {
+                    System.out.println("Saiu da Thread");
+                }
+            }
+        });
+
+        thread.start();
     }
 
     /**

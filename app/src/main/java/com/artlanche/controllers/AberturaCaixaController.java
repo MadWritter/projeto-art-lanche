@@ -3,13 +3,13 @@ package com.artlanche.controllers;
 import java.time.LocalDate;
 
 import com.artlanche.JanelaCaixa;
-import com.artlanche.model.transaction.RegistrarCaixa;
+import com.artlanche.model.transaction.CaixaDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 
 /**
  * Classe controller dos eventos de abertura do caixa
@@ -39,8 +39,8 @@ public class AberturaCaixaController {
                 valorInicial = Double.parseDouble(campoValorInicial.getText().replace(",", "."));
                 dataAbertura = DataAbertura.getValue();
 
-                RegistrarCaixa.novoCaixa(valorInicial, dataAbertura, TelaPrincipalController.usuarioAtual.getNome());
-
+                CaixaDAO.novoCaixa(valorInicial, dataAbertura, TelaPrincipalController.usuarioAtual.getNome());
+                JanelaCaixa.fecharJanelaCaixa();
             } catch (NumberFormatException e) {
                 Alert alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Erro");

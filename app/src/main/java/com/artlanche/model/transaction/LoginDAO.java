@@ -1,11 +1,10 @@
 package com.artlanche.model.transaction;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.artlanche.model.database.Database;
-import com.artlanche.model.entities.Usuario;
-import jakarta.persistence.EntityManager;
-
 import java.util.List;
+
+import com.artlanche.model.entities.Usuario;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import jakarta.persistence.EntityManager;
 
 /**
  * Classe responsável por pedir a autenticação do usuário no banco
@@ -13,7 +12,7 @@ import java.util.List;
  * @since 1.0
  * @author Jean Maciel
  */
-public class Login {
+public class LoginDAO {
 
     /**
      * Faz a autenticação do usuário no banco.

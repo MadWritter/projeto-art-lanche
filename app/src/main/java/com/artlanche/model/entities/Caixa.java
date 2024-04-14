@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Classe que representa o caixa do negócio, contendo os valores e datas
@@ -19,6 +20,7 @@ import lombok.Getter;
  * @author Jean Maciel
  */
 @Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "caixa")
 public class Caixa {
