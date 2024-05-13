@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #020024 0%, #000000 89%);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artlanche.controllers.AberturaCaixaController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3709a6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artlanche.controllers.AberturaCaixaController">
    <children>
       <TextField fx:id="campoValorInicial" layoutX="227.0" layoutY="96.0" style="-fx-background-color: #d1e3e4;" />
       <Label layoutX="158.0" layoutY="56.0" prefHeight="24.0" prefWidth="292.0" text="Informe o Valor inicial (separado por virgula)" textFill="WHITE" />

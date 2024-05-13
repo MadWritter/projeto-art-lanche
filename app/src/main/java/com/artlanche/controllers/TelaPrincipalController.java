@@ -1,17 +1,23 @@
 package com.artlanche.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.artlanche.App;
 import com.artlanche.JanelaCaixa;
 import com.artlanche.model.entities.Caixa;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.CaixaDAO;
+import com.artlanche.view.tools.Layout;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -67,7 +73,13 @@ public class TelaPrincipalController implements Initializable {
                     }
 
                     Platform.runLater(() -> {
-                        painel.getChildren().remove(rotuloCaixaFechado);
+                        try {
+                            Parent telaop = FXMLLoader.load(Layout.loader("TelaOp.fxml"));
+                            App.getTela().setScene(new Scene(telaop));
+                            App.getTela().centerOnScreen();
+                        } catch(IOException e) {
+                            throw new RuntimeException("Layout não encontrado: TelaOp.fxml");
+                        }
                     });
                 } else {
                     contador++;

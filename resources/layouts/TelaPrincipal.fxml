@@ -56,9 +56,9 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane fx:id="painel" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: linear-gradient(to right, #020024 0%, #000000 89%);" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="painel" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: #3709a6;" VBox.vgrow="ALWAYS">
       <children>
-        <Label fx:id="rotuloCaixaFechado" alignment="CENTER" layoutX="543.0" layoutY="336.0" style="&#10;" text="Nenhum caixa aberto" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+        <Label fx:id="rotuloCaixaFechado" alignment="CENTER" layoutX="415.0" layoutY="301.0" style="&#10;" text="Nenhum caixa aberto" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
