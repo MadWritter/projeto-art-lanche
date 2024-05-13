@@ -4,8 +4,7 @@ import java.io.IOException;
 
 import com.artlanche.App;
 import com.artlanche.model.transaction.CadastrarDAO;
-import com.artlanche.view.Layout;
-
+import com.artlanche.view.tools.Layout;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

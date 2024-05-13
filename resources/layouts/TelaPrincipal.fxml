@@ -36,7 +36,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -48,9 +49,6 @@
         <Menu mnemonicParsing="false" text="Abrir">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#novoCaixa" text="Novo Caixa" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#caixaExistente" text="Caixa Existente" />
-            <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#sair" text="Sair do Programa" />
           </items>
         </Menu>
@@ -63,6 +61,11 @@
             <Font size="18.0" />
           </font>
         </Label>
+            <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="481.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icons/hamburguer.png" />
+               </image>
+            </ImageView>
       </children>
     </AnchorPane>
   </children>

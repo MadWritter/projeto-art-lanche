@@ -5,12 +5,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.artlanche.App;
-import com.artlanche.JanelaCaixa;
+import com.artlanche.SegundaJanela;
 import com.artlanche.model.entities.Caixa;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.CaixaDAO;
 import com.artlanche.view.tools.Layout;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller que recebe os eventos da tela principal
@@ -32,28 +29,30 @@ import javafx.scene.layout.AnchorPane;
  */
 public class TelaPrincipalController implements Initializable {
 
-    // TODO atualizar a view baseada em um caixa existente
+    private static Usuario usuarioAtual;
 
-    public static Usuario usuarioAtual;
+    public static Usuario getUsuarioAtual() {
+        return usuarioAtual;
+    }
+
+    public static void setUsuarioAtual(Usuario usuarioAtual) {
+        if (usuarioAtual != null) {
+            TelaPrincipalController.usuarioAtual = usuarioAtual;
+        }
+    }
 
     public Caixa consultaCaixa = null;
 
     @FXML
-    private AnchorPane painel;
-
-    @FXML
-    private Label rotuloCaixaFechado;
-
-    @FXML
-    void caixaExistente(ActionEvent event) {
-
-    }
-
-    @FXML
     void novoCaixa(ActionEvent event) throws Exception {
-        JanelaCaixa.criarJanelaCaixa();
+        SegundaJanela.criar(Layout.loader("AberturaCaixa.fxml"), "Abrir Caixa");
     }
 
+    /**
+     * Esse método é carregado ao inicializar esse controller
+     * Busca resposta da camada model em outra thread sobre um
+     * caixa existente
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Thread thread = new Thread(() -> {
@@ -86,7 +85,7 @@ public class TelaPrincipalController implements Initializable {
                 }
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000); // consultar a cada 3 segundos
                 } catch(InterruptedException e) {
                     System.out.println("Saiu da Thread");
                 }

@@ -1,7 +1,6 @@
 package com.artlanche;
 
-import com.artlanche.view.Layout;
-
+import com.artlanche.view.tools.Layout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

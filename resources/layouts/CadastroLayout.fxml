@@ -9,38 +9,33 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3709a6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artlanche.controllers.CadastroController">
    <children>
-      <Label layoutX="237.0" layoutY="29.0" prefHeight="34.0" prefWidth="134.0" text="Dados de Cadastro" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="85.0" layoutY="96.0" text="Nome *" textFill="WHITE">
+      <Label layoutX="276.0" layoutY="40.0" text="Nome *" textFill="WHITE">
          <font>
             <Font size="13.0" />
          </font></Label>
-      <Label layoutX="160.0" layoutY="157.0" text="Login *" textFill="WHITE">
+      <Label layoutX="275.0" layoutY="207.0" text="Login *" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="285.0" layoutY="95.0" text="CPF *" textFill="WHITE">
+      <Label layoutX="281.0" layoutY="95.0" text="CPF *" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="382.0" layoutY="157.0" text="Senha *" textFill="WHITE">
+      <Label layoutX="273.0" layoutY="262.0" text="Senha *" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="466.0" layoutY="95.0" text="Email" textFill="WHITE">
+      <Label layoutX="281.0" layoutY="150.0" text="Email" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <TextField fx:id="campoNome" layoutX="31.0" layoutY="119.0" style="-fx-background-color: #d1e3e4;" />
-      <TextField fx:id="campoCPF" layoutX="226.0" layoutY="119.0" style="-fx-background-color: #d1e3e4;" />
-      <TextField fx:id="campoEmail" layoutX="408.0" layoutY="119.0" style="-fx-background-color: #d1e3e4;" />
-      <TextField fx:id="campoLogin" layoutX="106.0" layoutY="188.0" style="-fx-background-color: #d1e3e4;" />
-      <PasswordField fx:id="campoSenha" layoutX="329.0" layoutY="188.0" style="-fx-background-color: #d1e3e4;" />
-      <Button fx:id="botaoCadastro" layoutX="259.0" layoutY="271.0" mnemonicParsing="false" onAction="#fazerCadastro" text="Cadastrar" />
+      <TextField fx:id="campoNome" layoutX="215.0" layoutY="64.0" style="-fx-background-color: #d1e3e4;" />
+      <TextField fx:id="campoCPF" layoutX="215.0" layoutY="119.0" style="-fx-background-color: #d1e3e4;" />
+      <TextField fx:id="campoEmail" layoutX="215.0" layoutY="175.0" style="-fx-background-color: #d1e3e4;" />
+      <TextField fx:id="campoLogin" layoutX="215.0" layoutY="231.0" style="-fx-background-color: #d1e3e4;" />
+      <PasswordField fx:id="campoSenha" layoutX="215.0" layoutY="287.0" style="-fx-background-color: #d1e3e4;" />
+      <Button fx:id="botaoCadastro" layoutX="259.0" layoutY="331.0" mnemonicParsing="false" onAction="#fazerCadastro" text="Cadastrar" />
       <Button fx:id="botaoVoltar" layoutX="54.0" layoutY="343.0" mnemonicParsing="false" onAction="#voltarTelaInicial" text="Voltar" />
-      <Label layoutX="290.0" layoutY="347.0" text="Os campos marcados com * sao obrigatórios" textFill="WHITE" />
+      <Label layoutX="155.0" layoutY="367.0" text="Os campos marcados com * sao obrigatórios" textFill="WHITE" />
    </children>
 </AnchorPane>

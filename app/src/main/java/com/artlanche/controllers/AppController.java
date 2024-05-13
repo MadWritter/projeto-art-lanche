@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.artlanche.App;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.LoginDAO;
-import com.artlanche.view.Layout;
+import com.artlanche.view.tools.Layout;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -115,7 +115,7 @@ public class AppController {
             alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
             alertaLogin.showAndWait();
             
-            TelaPrincipalController.usuarioAtual = usuarioConsultado;
+            TelaPrincipalController.setUsuarioAtual(usuarioConsultado);
             
             Parent telaPrincipal;
             try {
