@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3709a6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artlanche.controllers.TelaNovoPedidoController">
+   <children>
+      <ImageView fitHeight="63.0" fitWidth="63.0" layoutX="269.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/hamburguer.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="81.0" layoutY="97.0" text="Itens do Cardapio:" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listaItensCardapio" layoutX="81.0" layoutY="121.0" prefHeight="84.0" prefWidth="324.0" />
+      <Label layoutX="81.0" layoutY="227.0" text="Comanda:" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="textoComanda" layoutX="81.0" layoutY="251.0" prefHeight="84.0" prefWidth="324.0" />
+      <Label layoutX="435.0" layoutY="239.0" text="Valor Adicional" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <TextField fx:id="valorAdicional" layoutX="421.0" layoutY="263.0" />
+      <Button layoutX="435.0" layoutY="127.0" mnemonicParsing="false" onAction="#adicionarItem" text="Adicionar Item" />
+      <Button layoutX="435.0" layoutY="163.0" mnemonicParsing="false" onAction="#removerItem" text="Remover Item" />
+      <Button layoutX="470.0" layoutY="311.0" mnemonicParsing="false" onAction="#finalizar" text="Finalizar" />
+   </children>
+</AnchorPane>

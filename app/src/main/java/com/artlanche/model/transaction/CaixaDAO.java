@@ -3,7 +3,7 @@ package com.artlanche.model.transaction;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.artlanche.SegundaJanela;
+import com.artlanche.controllers.TelaPrincipalController;
 import com.artlanche.model.entities.Caixa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
@@ -39,7 +39,7 @@ public class CaixaDAO {
             alerta.setTitle("Sucesso!");
             alerta.setHeaderText("Caixa criado com sucesso");
             alerta.showAndWait();
-            SegundaJanela.fechar();
+            TelaPrincipalController.novoCaixa.fecharJanela();
 
         } catch (PersistenceException e) {
 

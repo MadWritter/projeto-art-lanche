@@ -43,9 +43,11 @@ public class TelaPrincipalController implements Initializable {
 
     public Caixa consultaCaixa = null;
 
+    public static SegundaJanela novoCaixa;
+
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
-        SegundaJanela.criar(Layout.loader("AberturaCaixa.fxml"), "Abrir Caixa");
+        novoCaixa = new SegundaJanela("AberturaCaixa.fxml", "Novo Caixa");
     }
 
     /**

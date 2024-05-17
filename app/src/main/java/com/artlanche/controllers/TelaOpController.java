@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.artlanche.SegundaJanela;
-import com.artlanche.view.tools.Layout;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,7 +47,7 @@ public class TelaOpController implements Initializable{
 
     @FXML
     void cardapio(ActionEvent event) throws Exception{
-        SegundaJanela.criar(Layout.loader("Cardapio.fxml"), "Cardápio");
+        new SegundaJanela("TelaCardapio.fxml", "Cardápio");
     }
 
     @FXML
@@ -87,7 +85,7 @@ public class TelaOpController implements Initializable{
 
     @FXML
     void novoPedido(ActionEvent event) throws Exception {
-        
+        new SegundaJanela("TelaNovoPedido.fxml", "Novo Pedido");
     }
 
     @Override

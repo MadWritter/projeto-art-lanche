@@ -2,7 +2,6 @@ package com.artlanche.controllers;
 
 import java.time.LocalDate;
 
-import com.artlanche.SegundaJanela;
 import com.artlanche.model.transaction.CaixaDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +25,7 @@ public class AberturaCaixaController {
 
     @FXML
     void cancelarAbertura(ActionEvent event) {
-        SegundaJanela.fechar();
+        TelaPrincipalController.novoCaixa.fecharJanela();
     }
 
     @FXML
@@ -40,7 +39,6 @@ public class AberturaCaixaController {
                 dataAbertura = DataAbertura.getValue();
 
                 CaixaDAO.novoCaixa(valorInicial, dataAbertura, TelaPrincipalController.getUsuarioAtual().getNome());
-                SegundaJanela.fechar();
             } catch (NumberFormatException e) {
                 Alert alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Erro");
