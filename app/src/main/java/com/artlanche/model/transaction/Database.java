@@ -28,12 +28,17 @@ public interface Database {
      * @return uma instância de um Entity Manager
      */
     static EntityManager getUserManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios", Settings.configureDatabase());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("database", Settings.configureDatabase());
         return emf.createEntityManager();
     }
 
     static EntityManager getCaixaManager() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("usuarios", Settings.configureDatabase());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("database", Settings.configureDatabase());
+        return emf.createEntityManager();
+    }
+
+    static EntityManager getCardapioManager() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("database", Settings.configureDatabase());
         return emf.createEntityManager();
     }
 
@@ -52,6 +57,7 @@ public interface Database {
              */
             executeSQLFile(con, loadSql("create-table-usuarios.sql"));
             executeSQLFile(con, loadSql("create-table-caixa.sql"));
+            executeSQLFile(con, loadSql("create-table-cardapio.sql"));
 
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Um ou mais Arquivos SQL não foram executados" + e.getMessage());

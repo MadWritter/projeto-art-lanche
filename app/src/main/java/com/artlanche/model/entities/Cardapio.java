@@ -21,4 +21,15 @@ public class Cardapio {
     @Column(name = "descricao_item ",length = 200, nullable = false)
     private String descricaoItem;
 
+    public Cardapio(String descricaoItem) {
+        if (descricaoItem != null) {
+            this.descricaoItem = descricaoItem;
+        }
+    }
+
+    public void setDescricao(String descricao) {
+        if (descricao != null) {
+            descricaoItem = descricao;
+        }
+    }
 }
