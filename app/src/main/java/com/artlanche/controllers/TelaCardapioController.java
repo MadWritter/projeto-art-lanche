@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.artlanche.SegundaJanela;
+import com.artlanche.model.entities.Cardapio;
 import com.artlanche.model.transaction.CardapioDAO;
 
 import javafx.event.ActionEvent;
@@ -41,7 +42,8 @@ public class TelaCardapioController implements Initializable{
             alerta.setHeaderText("Selecione um item da lista primeiro!");
             alerta.showAndWait();
         } else {
-            TelaAlterarCardapioController.setItem(item);
+            Cardapio itemConsultado = CardapioDAO.getItemCardapioByDescricao(item);
+            TelaAlterarCardapioController.item = itemConsultado;
             segundaJanela = new SegundaJanela("TelaAlterarCardapio.fxml", "Cardápio");
         }
     }

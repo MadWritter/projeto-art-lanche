@@ -6,16 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" style="-fx-background-color: #3709a6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.artlanche.controllers.TelaAdicionarCardapioController">
    <children>
-      <Label layoutX="140.0" layoutY="22.0" text="Nome do Item:" textFill="WHITE">
+      <Label layoutX="141.0" layoutY="14.0" text="Nome do Item:" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="campoItem" layoutX="115.0" layoutY="63.0" />
-      <Button layoutX="115.0" layoutY="98.0" mnemonicParsing="false" onAction="#adicionarItem" text="Adicionar" />
-      <Button layoutX="206.0" layoutY="98.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <TextField fx:id="campoItem" layoutX="116.0" layoutY="34.0" />
+      <Button layoutX="116.0" layoutY="110.0" mnemonicParsing="false" onAction="#adicionarItem" text="Adicionar" />
+      <Button layoutX="211.0" layoutY="110.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Label layoutX="131.0" layoutY="58.0" text="Valor Por Unidade:" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="campoValorUnidade" layoutX="117.0" layoutY="78.0" prefHeight="24.0" prefWidth="171.0" />
    </children>
 </AnchorPane>

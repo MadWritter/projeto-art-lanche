@@ -1,44 +1,58 @@
 package com.artlanche.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.artlanche.model.entities.Cardapio;
 import com.artlanche.model.transaction.CardapioDAO;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 
-public class TelaAlterarCardapioController {
+public class TelaAlterarCardapioController implements Initializable {
 
     @FXML
     private TextField campoItem;
 
-    private static String item;
+    @FXML
+    private TextField campoValorUnidade;
 
-    public static void setItem(String itemInformado) {
-        if (itemInformado != null) {
-            item = itemInformado;
-        }
-    }
+    static Cardapio item;
+
+    String nomeAntigo;
+
+    String valorAntigo;
 
     @FXML
     void alterarItem(ActionEvent event) {
-        String novoNome = campoItem.getText();
-        if (novoNome == null || novoNome.isBlank()) {
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Aviso!");
-            alerta.setHeaderText("O campo de texto está vazio!");
-            alerta.showAndWait();
+        String nomeNovo = campoItem.getText();
+        String valorNovo = campoValorUnidade.getText().replace(',', '.');
+        if (nomeNovo == null || nomeNovo.isBlank() ||
+                valorNovo == null || valorNovo.isEmpty()) {
+                    Alert alerta = new Alert(AlertType.ERROR);
+                    alerta.setTitle("Aviso");
+                    alerta.setHeaderText("Um ou mais campos está vazio!");
+                    alerta.showAndWait();
         } else {
-            boolean alterou = CardapioDAO.alterarItem(item, novoNome);
-            if (alterou) {
-                Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Sucesso!");
-                alerta.setHeaderText("Descrição do item alterada com sucesso");
+            try {
+                double valorNovoConvertido = Double.parseDouble(valorNovo);
+                boolean atualizou = CardapioDAO.alterarItem(nomeAntigo, nomeNovo, valorNovoConvertido);
+                if (atualizou) {
+                    Alert alerta = new Alert(AlertType.INFORMATION);
+                    alerta.setTitle("Aviso");
+                    alerta.setHeaderText("Item Atualizado com sucesso!");
+                    alerta.showAndWait();
+                    TelaCardapioController.getSegundaJanela().fecharJanela();
+                }
+            } catch (Exception e) {
+                Alert alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Aviso");
+                alerta.setHeaderText("O valor informado está em formato incorreto");
                 alerta.showAndWait();
-                TelaCardapioController.getSegundaJanela().fecharJanela();
-            } else {
-
             }
         }
     }
@@ -46,6 +60,16 @@ public class TelaAlterarCardapioController {
     @FXML
     void cancelar(ActionEvent event) {
         TelaCardapioController.getSegundaJanela().fecharJanela();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        nomeAntigo = item.getDescricaoItem();
+        double valorAntigoDouble = item.getValorPorUnidade();
+        valorAntigo = Double.toString(valorAntigoDouble).replace('.', ',');
+
+        campoItem.setText(nomeAntigo);
+        campoValorUnidade.setText(valorAntigo);
     }
 
 }

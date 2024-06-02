@@ -20,16 +20,23 @@ public class Cardapio {
     private long id;
     @Column(name = "descricao_item ",length = 200, nullable = false)
     private String descricaoItem;
+    @Column(name = "valor_por_unidade", nullable = false)
+    private double valorPorUnidade;
 
-    public Cardapio(String descricaoItem) {
+    public Cardapio(String descricaoItem, double valorPorUnidade) {
         if (descricaoItem != null) {
             this.descricaoItem = descricaoItem;
         }
+        this.valorPorUnidade = valorPorUnidade;
     }
 
     public void setDescricao(String descricao) {
         if (descricao != null) {
-            descricaoItem = descricao;
+            this.descricaoItem = descricao;
         }
+    }
+
+    public void setValorPorUnidade(double valor) {
+        this.valorPorUnidade = valor;
     }
 }

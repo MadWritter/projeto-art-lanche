@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 public class TelaNovoPedidoController {
 
     @FXML
+    private TextField campoDesconto;
+
+    @FXML
     private ListView<?> listaItensCardapio;
 
     @FXML
@@ -19,7 +22,7 @@ public class TelaNovoPedidoController {
 
     @FXML
     void adicionarItem(ActionEvent event) {
-
+        
     }
 
     @FXML

@@ -39,6 +39,11 @@
                </image>
             </ImageView>
             <Button layoutX="245.0" layoutY="324.0" mnemonicParsing="false" onAction="#atualizarLista" text="Atualizar Lista" />
+            <Label fx:id="valorPorUnidade" layoutX="356.0" layoutY="115.0" prefHeight="18.0" prefWidth="208.0" text="Valor por unidade:" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

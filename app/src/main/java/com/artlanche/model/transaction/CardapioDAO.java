@@ -17,10 +17,10 @@ public class CardapioDAO {
         }
     }
     
-    public static boolean adicionarItem(String nome) {
+    public static boolean adicionarItem(String nome, double valor) {
         Cardapio item = null;
         if (nome != null) {
-            item = new Cardapio(nome);
+            item = new Cardapio(nome, valor);
         } else {
             throw new NullPointerException("O nome passado como argumento para o item é nulo");
         }
@@ -41,7 +41,7 @@ public class CardapioDAO {
         }
     }
 
-    public static boolean alterarItem(String nomeAntigo, String nomeNovo) {
+    public static boolean alterarItem(String nomeAntigo, String nomeNovo, double valorNovo) {
         try(EntityManager em = Database.getCardapioManager()) {
             em.getTransaction().begin();
             var query = em.createQuery("SELECT c FROM Cardapio c WHERE c.descricaoItem=:nomeAtual", Cardapio.class);
@@ -50,6 +50,7 @@ public class CardapioDAO {
 
             if (item != null) {
                 item.setDescricao(nomeNovo);
+                item.setValorPorUnidade(valorNovo);
                 em.flush();
                 em.getTransaction().commit();
                 return true;
@@ -76,6 +77,17 @@ public class CardapioDAO {
             }
         } catch(Exception e) {
             return false;
+        }
+    }
+
+    public static Cardapio getItemCardapioByDescricao(String item) {
+        try(EntityManager em = Database.getCardapioManager()) {
+            em.getTransaction().begin();
+            var query = em.createQuery("SELECT c FROM Cardapio c WHERE c.descricaoItem=:item", Cardapio.class);
+            query.setParameter("item", item);
+            return query.getSingleResult();
+        } catch(Exception e) {
+            return null;
         }
     }
 }

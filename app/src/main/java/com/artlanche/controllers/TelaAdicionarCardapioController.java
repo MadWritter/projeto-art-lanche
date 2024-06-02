@@ -14,28 +14,46 @@ public class TelaAdicionarCardapioController {
     private TextField campoItem;
 
     @FXML
+    private TextField campoValorUnidade;
+
+    @FXML
     void adicionarItem(ActionEvent event) {
         String nomeItem = campoItem.getText();
+        String valorString = campoValorUnidade.getText().replace(',','.');
         if (nomeItem == null || nomeItem.isBlank()) {
             Alert alerta = new Alert(AlertType.ERROR);
             alerta.setTitle("Aviso");
-            alerta.setHeaderText("O campo informado está vazio!");
+            alerta.setHeaderText("O campo com o nome do item está vazio!");
+            alerta.showAndWait();
+        } else if (valorString == null || valorString.isBlank()) {
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Aviso");
+            alerta.setHeaderText("O campo com o nome do item está vazio!");
             alerta.showAndWait();
         } else {
-            boolean adicionou = CardapioDAO.adicionarItem(nomeItem);
-            if (adicionou) {
+            double valorConvertido = converterValorUnidade(valorString);
+            boolean registrou = CardapioDAO.adicionarItem(nomeItem, valorConvertido);
+            if (registrou) {
                 Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Aviso");
-                alerta.setHeaderText("Adicionado com sucesso!");
+                alerta.setHeaderText("Item inserido com sucesso!");
                 alerta.showAndWait();
                 TelaCardapioController.getSegundaJanela().fecharJanela();
-            } else {
-                Alert alerta = new Alert(AlertType.ERROR);
-                alerta.setTitle("Aviso");
-                alerta.setHeaderText("Esse item já existe no cardápio!");
-                alerta.showAndWait();
             }
-        }    
+        }
+
+    }
+
+    private double converterValorUnidade(String valorTexto) {
+        try {
+            return Double.parseDouble(valorTexto);
+        } catch (NumberFormatException e) {
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Aviso");
+            alerta.setHeaderText("O valor por unidade inserido está em formato incorreto!");
+            alerta.showAndWait();
+            throw new RuntimeException("Valor inserido em formato incorreto");
+        }
     }
 
     @FXML
