@@ -9,13 +9,16 @@ import com.artlanche.SegundaJanela;
 import com.artlanche.model.entities.Cardapio;
 import com.artlanche.model.transaction.CardapioDAO;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 
 public class TelaCardapioController implements Initializable{
 
@@ -27,6 +30,11 @@ public class TelaCardapioController implements Initializable{
 
     @FXML
     private ListView<String> itensCardapio;
+
+    @FXML
+    private Label valorPorUnidade;
+
+    private String textoLabel;
 
     @FXML
     void adicionarItem(ActionEvent event) throws Exception {
@@ -85,6 +93,24 @@ public class TelaCardapioController implements Initializable{
                 itensCardapio.getItems().addAll(item);
             }
         }
+
+        textoLabel = valorPorUnidade.getText();
+        itensCardapio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                String descricaoItem = itensCardapio.getSelectionModel().getSelectedItem();
+                double valorItemSelecionado = CardapioDAO.getItemCardapioByDescricao(descricaoItem).getValorPorUnidade();
+
+                String valorAjustadoString;
+                try {
+                    valorAjustadoString = Double.toString(valorItemSelecionado).replace('.', ',');
+                } catch(Exception e) {
+                    throw e;
+                }
+
+                valorPorUnidade.setText(textoLabel + " R$ " + valorAjustadoString);
+            }
+        });
     }
 
     @FXML
