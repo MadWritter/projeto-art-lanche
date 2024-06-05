@@ -43,11 +43,11 @@ public class TelaPrincipalController implements Initializable {
 
     public Caixa consultaCaixa = null;
 
-    public static SegundaJanela novoCaixa;
+    public static SegundaJanela<?> novoCaixa;
 
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
-        novoCaixa = new SegundaJanela("AberturaCaixa.fxml", "Novo Caixa");
+        novoCaixa = new SegundaJanela<AberturaCaixaController>("AberturaCaixa.fxml", "Novo Caixa");
     }
 
     /**

@@ -46,7 +46,6 @@ public class TelaAlterarCardapioController implements Initializable {
                     alerta.setTitle("Aviso");
                     alerta.setHeaderText("Item Atualizado com sucesso!");
                     alerta.showAndWait();
-                    TelaCardapioController.getSegundaJanela().fecharJanela();
                 }
             } catch (Exception e) {
                 Alert alerta = new Alert(AlertType.ERROR);

@@ -41,6 +41,10 @@ public interface Database {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("database", Settings.configureDatabase());
         return emf.createEntityManager();
     }
+    static EntityManager getPedidoManager() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("database", Settings.configureDatabase());
+        return emf.createEntityManager();
+    }
 
     /**
      * Faz a checagem das tabelas do banco de dados. 
@@ -58,7 +62,7 @@ public interface Database {
             executeSQLFile(con, loadSql("create-table-usuarios.sql"));
             executeSQLFile(con, loadSql("create-table-caixa.sql"));
             executeSQLFile(con, loadSql("create-table-cardapio.sql"));
-
+            executeSQLFile(con, loadSql("create-table-pedidos.sql"));
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Um ou mais Arquivos SQL não foram executados" + e.getMessage());
         }

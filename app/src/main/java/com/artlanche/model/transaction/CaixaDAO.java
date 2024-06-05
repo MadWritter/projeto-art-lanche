@@ -72,4 +72,14 @@ public class CaixaDAO {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public static Long getCaixaAbertoId() {
+        try(EntityManager em = Database.getCaixaManager()) {
+            em.getTransaction().begin();
+            var query = em.createQuery("SELECT c.id FROM Caixa c WHERE c.aberto=true", Long.class);
+            return query.getSingleResult();
+        } catch(Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

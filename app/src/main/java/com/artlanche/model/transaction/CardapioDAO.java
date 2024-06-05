@@ -90,4 +90,15 @@ public class CardapioDAO {
             return null;
         }
     }
+
+    public static Cardapio getCardapioById(Long id) {
+        try(EntityManager em = Database.getCardapioManager()) {
+            em.getTransaction().begin();
+            var query = em.createQuery("SELECT c FROM Cardapio c WHERE c.id=:id", Cardapio.class);
+            query.setParameter("id", id);
+            return query.getSingleResult();
+        } catch(Exception e) {
+            throw new RuntimeException();
+        }
+    }
 }

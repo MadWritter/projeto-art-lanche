@@ -16,15 +16,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import lombok.Getter;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+@Getter
 public class TelaCardapioController implements Initializable{
 
-    private static SegundaJanela segundaJanela;
+    public static SegundaJanela<?> segundaJanela;
 
-    public static SegundaJanela getSegundaJanela() {
+    public static SegundaJanela<?> getSegundaJanela() {
         return segundaJanela;
     }
 
@@ -38,7 +40,7 @@ public class TelaCardapioController implements Initializable{
 
     @FXML
     void adicionarItem(ActionEvent event) throws Exception {
-        segundaJanela = new SegundaJanela("TelaAdicionarCardapio.fxml", "Cardápio");
+        segundaJanela = new SegundaJanela<TelaAdicionarCardapioController>("TelaAdicionarCardapio.fxml", "Cardápio");
     }
 
     @FXML
@@ -52,7 +54,7 @@ public class TelaCardapioController implements Initializable{
         } else {
             Cardapio itemConsultado = CardapioDAO.getItemCardapioByDescricao(item);
             TelaAlterarCardapioController.item = itemConsultado;
-            segundaJanela = new SegundaJanela("TelaAlterarCardapio.fxml", "Cardápio");
+            segundaJanela = new SegundaJanela<TelaAlterarCardapioController>("TelaAlterarCardapio.fxml", "Cardápio");
         }
     }
 
