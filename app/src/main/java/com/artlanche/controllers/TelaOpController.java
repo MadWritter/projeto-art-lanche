@@ -137,15 +137,17 @@ public class TelaOpController implements Initializable {
         Thread pedidos = new Thread(() -> {
             while (true) {
                 if (objetosPedidos.size() != tamanhoDosPedidos) {
-                    objetosPedidos.clear();
+                    objetosPedidos.clear(); // limpa a lista com os objetos
                     Platform.runLater(() -> {
-                        listaDePedidos.getItems().clear();
+                        listaDePedidos.getItems().clear(); // atualiza a view
                     });
-                    List<Pedido> pedidosConsultados = PedidoDAO.getListaPedidosNaoConcluidos(caixaId);
+                    List<Pedido> pedidosConsultados = PedidoDAO.getListaPedidosNaoConcluidos(caixaId); // faz uma consulta com os pedidos atuais desse caixa
                     if (pedidosConsultados != null && !pedidosConsultados.isEmpty()) {
                         for (Pedido p : pedidosConsultados) {
                             PedidoDTO dtoAtual = new PedidoDTO(p);
-                            objetosPedidos.add(dtoAtual);
+                            List<PedidoDTO> novaLista = new ArrayList<>();
+                            novaLista.add(dtoAtual);
+                            objetosPedidos = novaLista;
                             String idEmString = Long.toString(dtoAtual.getId());
                             Platform.runLater(() -> {
                                 listaDePedidos.getItems().addAll(idEmString);

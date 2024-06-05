@@ -27,7 +27,7 @@ public class Caixa {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
     @Column(name = "valor_inicial")
     private double valorInicial;
     @Column(name = "valor_final")

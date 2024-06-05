@@ -48,7 +48,19 @@ public class PedidoDAO {
             query.setParameter("caixaId", caixaId);
             return query.getResultList();
         } catch(Exception e) {
-            throw new RuntimeException("Erro ao consultar pedidos");
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static boolean removerPedido(PedidoDTO pedido) {
+        Pedido pedidoParaRemover = new Pedido(pedido);
+        try(EntityManager em = Database.getPedidoManager()) {
+            em.getTransaction().begin();
+            em.remove(pedidoParaRemover);
+            em.getTransaction().commit();
+            return true;
+        } catch(Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

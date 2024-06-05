@@ -75,11 +75,13 @@ public class TelaPrincipalController implements Initializable {
 
                     Platform.runLater(() -> {
                         try {
-                            Parent telaop = FXMLLoader.load(Layout.loader("TelaOp.fxml"));
+                            URL layout = Layout.loader("TelaOp.fxml");
+                            System.out.println("Layout carregado: " + layout.toExternalForm());
+                            Parent telaop = FXMLLoader.load(layout);
                             App.getTela().setScene(new Scene(telaop));
                             App.getTela().centerOnScreen();
-                        } catch(IOException e) {
-                            throw new RuntimeException("Layout não encontrado: TelaOp.fxml");
+                        } catch(Exception e) {
+                            throw new RuntimeException(e);
                         }
                     });
                 } else {

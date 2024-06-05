@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS caixa(
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL PRIMARY KEY,
     valor_inicial DECIMAL NOT NULL,
     valor_final DECIMAL,
     data_abertura DATE NOT NULL,
