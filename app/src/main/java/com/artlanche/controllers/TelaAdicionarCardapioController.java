@@ -16,6 +16,8 @@ public class TelaAdicionarCardapioController {
     @FXML
     private TextField campoValorUnidade;
 
+    private TelaCardapioController telaCardapioController;
+
     @FXML
     void adicionarItem(ActionEvent event) {
         String nomeItem = campoItem.getText();
@@ -38,6 +40,8 @@ public class TelaAdicionarCardapioController {
                 alerta.setTitle("Aviso");
                 alerta.setHeaderText("Item inserido com sucesso!");
                 alerta.showAndWait();
+                telaCardapioController.atualizou();
+                telaCardapioController.getStageAdicionarCardapio().close();
             }
         }
 
@@ -57,7 +61,13 @@ public class TelaAdicionarCardapioController {
 
     @FXML
     void cancelar(ActionEvent event) {
-        
+        telaCardapioController.getStageAdicionarCardapio().close();
+    }
+
+    public void setMainController(TelaCardapioController telaCardapioController) {
+        if (telaCardapioController != null) {
+            this.telaCardapioController = telaCardapioController;
+        }
     }
 
 }

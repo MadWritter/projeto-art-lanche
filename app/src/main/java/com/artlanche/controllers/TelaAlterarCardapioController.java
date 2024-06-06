@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import com.artlanche.model.entities.Cardapio;
 import com.artlanche.model.transaction.CardapioDAO;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,11 +22,17 @@ public class TelaAlterarCardapioController implements Initializable {
     @FXML
     private TextField campoValorUnidade;
 
-    static Cardapio item;
+    private TelaCardapioController telaCardapioController;
 
-    String nomeAntigo;
+    private Cardapio itemcCardapio;
 
-    String valorAntigo;
+    private String nomeAntigo;
+
+    public void setItem(Cardapio c) {
+        if (c != null) {
+            itemcCardapio = c;
+        }
+    }
 
     @FXML
     void alterarItem(ActionEvent event) {
@@ -42,9 +49,11 @@ public class TelaAlterarCardapioController implements Initializable {
                 double valorNovoConvertido = Double.parseDouble(valorNovo);
                 boolean atualizou = CardapioDAO.alterarItem(nomeAntigo, nomeNovo, valorNovoConvertido);
                 if (atualizou) {
+                    telaCardapioController.atualizou();
                     Alert alerta = new Alert(AlertType.INFORMATION);
                     alerta.setTitle("Aviso");
                     alerta.setHeaderText("Item Atualizado com sucesso!");
+                    telaCardapioController.getStageAlterarCardapio().close();
                     alerta.showAndWait();
                 }
             } catch (Exception e) {
@@ -58,17 +67,25 @@ public class TelaAlterarCardapioController implements Initializable {
 
     @FXML
     void cancelar(ActionEvent event) {
-        
+        telaCardapioController.getStageAlterarCardapio().close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        nomeAntigo = item.getDescricaoItem();
-        double valorAntigoDouble = item.getValorPorUnidade();
-        valorAntigo = Double.toString(valorAntigoDouble).replace('.', ',');
+        Platform.runLater(() -> {
+            nomeAntigo = itemcCardapio.getDescricaoItem();
+            double valorAntigoDouble = itemcCardapio.getValorPorUnidade();
+            String valorAntigo = Double.toString(valorAntigoDouble).replace('.', ',');
+    
+            campoItem.setText(nomeAntigo);
+            campoValorUnidade.setText(valorAntigo);
+        });
+    }
 
-        campoItem.setText(nomeAntigo);
-        campoValorUnidade.setText(valorAntigo);
+    public void setMainController(TelaCardapioController telaCardapioController) {
+        if (telaCardapioController != null) {
+            this.telaCardapioController = telaCardapioController;
+        }
     }
 
 }

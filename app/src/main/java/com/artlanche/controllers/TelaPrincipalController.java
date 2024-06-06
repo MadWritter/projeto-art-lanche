@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import lombok.Getter;
 
 /**
  * Controller que recebe os eventos da tela principal
@@ -27,6 +28,7 @@ import javafx.stage.Stage;
  * @since 1.0
  * @author Jean Maciel
  */
+@Getter
 public class TelaPrincipalController implements Initializable {
 
     private Usuario usuarioAtual;
@@ -56,6 +58,8 @@ public class TelaPrincipalController implements Initializable {
     public Stage getStageNovoCaixa() {
         return stage;
     }
+
+    private TelaOpController telaOpController;
 
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
@@ -97,8 +101,9 @@ public class TelaPrincipalController implements Initializable {
                         try {
                             FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaOp.fxml"));
                             Parent telaop = fxml.load();
-                            TelaOpController telaOpController = fxml.getController();
+                            telaOpController = fxml.getController();
                             telaOpController.setMainController(this);
+                            telaOpController.setRoot(telaop);
                             App.getTela().setScene(new Scene(telaop));
                             App.getTela().centerOnScreen();
                         } catch(Exception e) {

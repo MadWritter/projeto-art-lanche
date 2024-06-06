@@ -1,6 +1,5 @@
 package com.artlanche.model.entities;
 
-import java.math.BigInteger;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
