@@ -3,7 +3,6 @@ package com.artlanche.model.transaction;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.artlanche.controllers.TelaPrincipalController;
 import com.artlanche.model.entities.Caixa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
@@ -24,7 +23,7 @@ public class CaixaDAO {
      * @param dataAbertura - data de abertura do caixa
      * @param nome - nome do operador/usuário que abriu o caixa
      */
-    public static void novoCaixa(Double valorInicial, LocalDate dataAbertura, String nome) {
+    public static Long novoCaixa(Double valorInicial, LocalDate dataAbertura, String nome) {
         // Gera uma entidade caixa com os valores
         Caixa caixa = 
             new Caixa(valorInicial, 0, dataAbertura.getDayOfMonth(), dataAbertura.getMonthValue(), dataAbertura.getYear(), nome);
@@ -38,17 +37,10 @@ public class CaixaDAO {
             Alert alerta = new Alert(AlertType.INFORMATION);
             alerta.setTitle("Sucesso!");
             alerta.setHeaderText("Caixa criado com sucesso");
-            alerta.showAndWait();
-            TelaPrincipalController.novoCaixa.fecharJanela();
+            return caixa.getId();
 
         } catch (PersistenceException e) {
-
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Erro");
-            alerta.setHeaderText("Erro ao cadastrar o caixa no banco, tente novamente");
-            alerta.showAndWait();
-            throw new PersistenceException("Erro ao cadastrar na base de dados" + e.getMessage());
-
+            return null;
         }
     }
 

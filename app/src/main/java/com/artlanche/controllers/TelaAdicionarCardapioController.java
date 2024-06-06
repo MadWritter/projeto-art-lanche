@@ -5,8 +5,8 @@ import com.artlanche.model.transaction.CardapioDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 
 public class TelaAdicionarCardapioController {
 
@@ -38,7 +38,6 @@ public class TelaAdicionarCardapioController {
                 alerta.setTitle("Aviso");
                 alerta.setHeaderText("Item inserido com sucesso!");
                 alerta.showAndWait();
-                TelaCardapioController.getSegundaJanela().fecharJanela();
             }
         }
 
@@ -58,7 +57,7 @@ public class TelaAdicionarCardapioController {
 
     @FXML
     void cancelar(ActionEvent event) {
-        TelaCardapioController.getSegundaJanela().fecharJanela();
+        
     }
 
 }

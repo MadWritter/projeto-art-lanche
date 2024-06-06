@@ -3,6 +3,7 @@ package com.artlanche.controllers;
 import java.time.LocalDate;
 
 import com.artlanche.model.transaction.CaixaDAO;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,9 +24,11 @@ public class AberturaCaixaController {
     @FXML
     private TextField campoValorInicial;
 
+    public TelaPrincipalController telaPrincipal;
+
     @FXML
     void cancelarAbertura(ActionEvent event) {
-        TelaPrincipalController.novoCaixa.fecharJanela();
+        
     }
 
     @FXML
@@ -38,13 +41,36 @@ public class AberturaCaixaController {
                 valorInicial = Double.parseDouble(campoValorInicial.getText().replace(",", "."));
                 dataAbertura = DataAbertura.getValue();
 
-                CaixaDAO.novoCaixa(valorInicial, dataAbertura, TelaPrincipalController.getUsuarioAtual().getNome());
+                Long id = CaixaDAO.novoCaixa(valorInicial, dataAbertura, telaPrincipal.getUsuarioAtual().getNome());
+                if (id != null) {
+                    enviarId(id);
+                    telaPrincipal.getStageNovoCaixa().close();
+                } else {
+                    throw new NullPointerException();
+                }
             } catch (NumberFormatException e) {
                 Alert alerta = new Alert(AlertType.ERROR);
                 alerta.setTitle("Erro");
                 alerta.setHeaderText("O valor do caixa inserido está incorreto");
                 alerta.showAndWait();
+            } catch (NullPointerException e) {
+                Alert alerta = new Alert(AlertType.ERROR);
+                alerta.setTitle("Erro");
+                alerta.setHeaderText("Não foi possível criar o caixa no banco, tente novamente!");
+                alerta.showAndWait();
             }
+        }
+    }
+
+    public void setMainController(TelaPrincipalController telaPrincipalController) {
+        if (telaPrincipalController != null) {
+            this.telaPrincipal = telaPrincipalController;
+        }
+    }
+
+    public void enviarId(Long id) {
+        if (telaPrincipal != null) {
+            telaPrincipal.idRecebido(id);
         }
     }
 

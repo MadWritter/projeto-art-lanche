@@ -1,15 +1,14 @@
 package com.artlanche.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.artlanche.App;
-import com.artlanche.SegundaJanela;
 import com.artlanche.model.entities.Caixa;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.CaixaDAO;
 import com.artlanche.view.tools.Layout;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
 /**
  * Controller que recebe os eventos da tela principal
@@ -29,25 +29,45 @@ import javafx.scene.control.ButtonType;
  */
 public class TelaPrincipalController implements Initializable {
 
-    private static Usuario usuarioAtual;
+    private Usuario usuarioAtual;
 
-    public static Usuario getUsuarioAtual() {
+    public Usuario getUsuarioAtual() {
         return usuarioAtual;
     }
 
-    public static void setUsuarioAtual(Usuario usuarioAtual) {
+    private Long caixaId;
+
+    public Long getCaixaId() {
+        return this.caixaId;
+    }
+
+    public void setUsuarioAtual(Usuario usuarioAtual) {
         if (usuarioAtual != null) {
-            TelaPrincipalController.usuarioAtual = usuarioAtual;
+            this.usuarioAtual = usuarioAtual;
         }
     }
 
-    public Caixa consultaCaixa = null;
+    private Caixa consultaCaixa = null;
 
-    public static SegundaJanela<?> novoCaixa;
+    private AberturaCaixaController caixaController;
+
+    private Stage stage;
+
+    public Stage getStageNovoCaixa() {
+        return stage;
+    }
 
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
-        novoCaixa = new SegundaJanela<AberturaCaixaController>("AberturaCaixa.fxml", "Novo Caixa");
+        FXMLLoader novoCaixa = new FXMLLoader(Layout.loader("AberturaCaixa.fxml"));
+        Parent root = novoCaixa.load();
+
+        caixaController = novoCaixa.getController();
+        caixaController.setMainController(this);
+
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -75,9 +95,10 @@ public class TelaPrincipalController implements Initializable {
 
                     Platform.runLater(() -> {
                         try {
-                            URL layout = Layout.loader("TelaOp.fxml");
-                            System.out.println("Layout carregado: " + layout.toExternalForm());
-                            Parent telaop = FXMLLoader.load(layout);
+                            FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaOp.fxml"));
+                            Parent telaop = fxml.load();
+                            TelaOpController telaOpController = fxml.getController();
+                            telaOpController.setMainController(this);
                             App.getTela().setScene(new Scene(telaop));
                             App.getTela().centerOnScreen();
                         } catch(Exception e) {
@@ -115,6 +136,12 @@ public class TelaPrincipalController implements Initializable {
                 System.exit(0);
             }
         });
+    }
+
+    public void idRecebido(Long id) {
+        if (id != null) {
+            this.caixaId = id;
+        }
     }
 
 }

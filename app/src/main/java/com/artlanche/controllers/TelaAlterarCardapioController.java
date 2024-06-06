@@ -58,7 +58,7 @@ public class TelaAlterarCardapioController implements Initializable {
 
     @FXML
     void cancelar(ActionEvent event) {
-        TelaCardapioController.getSegundaJanela().fecharJanela();
+        
     }
 
     @Override

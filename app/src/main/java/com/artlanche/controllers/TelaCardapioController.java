@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.artlanche.SegundaJanela;
-import com.artlanche.model.entities.Cardapio;
 import com.artlanche.model.transaction.CardapioDAO;
 
 import javafx.beans.value.ChangeListener;
@@ -16,19 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import lombok.Getter;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import lombok.Getter;
 
 @Getter
 public class TelaCardapioController implements Initializable{
-
-    public static SegundaJanela<?> segundaJanela;
-
-    public static SegundaJanela<?> getSegundaJanela() {
-        return segundaJanela;
-    }
 
     @FXML
     private ListView<String> itensCardapio;
@@ -40,22 +32,12 @@ public class TelaCardapioController implements Initializable{
 
     @FXML
     void adicionarItem(ActionEvent event) throws Exception {
-        segundaJanela = new SegundaJanela<TelaAdicionarCardapioController>("TelaAdicionarCardapio.fxml", "Cardápio");
+        
     }
 
     @FXML
     void alterarItem(ActionEvent event) throws Exception {
-        String item = itensCardapio.getSelectionModel().getSelectedItem();
-        if (item == null) {
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Aviso");
-            alerta.setHeaderText("Selecione um item da lista primeiro!");
-            alerta.showAndWait();
-        } else {
-            Cardapio itemConsultado = CardapioDAO.getItemCardapioByDescricao(item);
-            TelaAlterarCardapioController.item = itemConsultado;
-            segundaJanela = new SegundaJanela<TelaAlterarCardapioController>("TelaAlterarCardapio.fxml", "Cardápio");
-        }
+        
     }
 
     @FXML

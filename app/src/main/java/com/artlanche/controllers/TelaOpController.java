@@ -1,15 +1,7 @@
 package com.artlanche.controllers;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import com.artlanche.SegundaJanela;
-import com.artlanche.model.dtos.PedidoDTO;
-import com.artlanche.model.entities.Pedido;
-import com.artlanche.model.transaction.CaixaDAO;
-import com.artlanche.model.transaction.PedidoDAO;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -50,11 +42,7 @@ public class TelaOpController implements Initializable {
     @FXML
     private ListView<String> listaDePedidos;
 
-    public static List<PedidoDTO> objetosPedidos;
-
-    public int tamanhoDosPedidos;
-
-    public static Long caixaId;
+    private TelaPrincipalController telaPrincipalController;
 
     @FXML
     void alterarPedido(ActionEvent event) {
@@ -63,7 +51,7 @@ public class TelaOpController implements Initializable {
 
     @FXML
     void cardapio(ActionEvent event) throws Exception {
-        new SegundaJanela<TelaCardapioController>("TelaCardapio.fxml", "Cardápio");
+        
     }
 
     @FXML
@@ -101,71 +89,22 @@ public class TelaOpController implements Initializable {
 
     @FXML
     void novoPedido(ActionEvent event) throws Exception {
-        SegundaJanela<TelaNovoPedidoController> segundaJanela = new SegundaJanela<>("TelaNovoPedido.fxml",
-                "Novo Pedido");
-        var controller = segundaJanela.getController();
-        controller.getCampoDesconto().clear();
-        controller.getListaItensCardapio().getItems().clear();
-        controller.getTextoComanda().clear();
-        controller.getValorAdicional().clear();
+        
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        caixaId = CaixaDAO.getCaixaAbertoId();
-        objetosPedidos = new ArrayList<>();
-        objetosPedidos.clear();
-        listaDePedidos.getItems().clear();
-        List<Pedido> pedidosConsultadosFirst = PedidoDAO.getListaPedidosNaoConcluidos(caixaId);
-        if (pedidosConsultadosFirst != null && !pedidosConsultadosFirst.isEmpty()) {
-            for (Pedido p : pedidosConsultadosFirst) {
-                PedidoDTO dtoAtual = new PedidoDTO(p);
-                objetosPedidos.add(dtoAtual);
-                String idEmString = Long.toString(dtoAtual.getId());
-                listaDePedidos.getItems().addAll(idEmString);
-                listaDePedidos.refresh();
-                tamanhoDosPedidos = objetosPedidos.size();
-            }
-        }
-        tamanhoDosPedidos = objetosPedidos.size();
-        String usuario = TelaPrincipalController.getUsuarioAtual().getNome();
-        labelUsuario.setText(labelUsuario.getText() + " " + usuario);
-        campoNumeroPedido.setEditable(false);
-        campoItensCardapio.setEditable(false);
-        campoComanda.setEditable(false);
-
-        Thread pedidos = new Thread(() -> {
-            while (true) {
-                if (objetosPedidos.size() != tamanhoDosPedidos) {
-                    objetosPedidos.clear(); // limpa a lista com os objetos
-                    Platform.runLater(() -> {
-                        listaDePedidos.getItems().clear(); // atualiza a view
-                    });
-                    List<Pedido> pedidosConsultados = PedidoDAO.getListaPedidosNaoConcluidos(caixaId); // faz uma consulta com os pedidos atuais desse caixa
-                    if (pedidosConsultados != null && !pedidosConsultados.isEmpty()) {
-                        for (Pedido p : pedidosConsultados) {
-                            PedidoDTO dtoAtual = new PedidoDTO(p);
-                            List<PedidoDTO> novaLista = new ArrayList<>();
-                            novaLista.add(dtoAtual);
-                            objetosPedidos = novaLista;
-                            String idEmString = Long.toString(dtoAtual.getId());
-                            Platform.runLater(() -> {
-                                listaDePedidos.getItems().addAll(idEmString);
-                                listaDePedidos.refresh();
-                            });
-                            tamanhoDosPedidos = objetosPedidos.size();
-                        }
-                    }
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException();
-                }
-            }
+        Platform.runLater(() -> {
+            String usuarioAtual = telaPrincipalController.getUsuarioAtual().getNome();
+            String textoLabel = labelUsuario.getText();
+            labelUsuario.setText(textoLabel + " " + usuarioAtual);
         });
-        pedidos.setDaemon(true);
-        pedidos.start();
+    }
+
+    public void setMainController(TelaPrincipalController telaPrincipalController) {
+        if (telaPrincipalController != null) {
+            this.telaPrincipalController = telaPrincipalController;
+        }
     }
 
 }

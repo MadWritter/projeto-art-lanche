@@ -6,6 +6,8 @@ import com.artlanche.App;
 import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.LoginDAO;
 import com.artlanche.view.tools.Layout;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +47,8 @@ public class AppController {
 
     @FXML
     private ImageView logo = new ImageView(Layout.iconLoader("hamburguer.png"));
+
+    private TelaPrincipalController telaPrincipalController;
 
     /**
      * Recebe outras funções ao inicializar o layout
@@ -93,9 +97,11 @@ public class AppController {
      */
     @FXML
     void fazerLogin(ActionEvent event) {
-        String login = campoLogin.getText();
-        String senha = campoSenha.getText();
-        login(login, senha);
+        Platform.runLater(() -> {
+            String login = campoLogin.getText();
+            String senha = campoSenha.getText();
+            login(login, senha);
+        });
     }
 
     /**
@@ -105,33 +111,35 @@ public class AppController {
      */
     @FXML
     void login(String login, String senha) {
+        Platform.runLater(() -> {
 
-        Usuario usuarioConsultado = LoginDAO.fazerLogin(login, senha);
+            Usuario usuarioConsultado = LoginDAO.fazerLogin(login, senha);
+    
+            if (usuarioConsultado != null) {
+    
+                Alert alertaLogin = new Alert(AlertType.INFORMATION);
+                alertaLogin.setTitle("Autenticado com sucesso");
+                alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
+                alertaLogin.showAndWait();
 
-        if (usuarioConsultado != null) {
-
-            Alert alertaLogin = new Alert(AlertType.INFORMATION);
-            alertaLogin.setTitle("Autenticado com sucesso");
-            alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
-            alertaLogin.showAndWait();
-            
-            TelaPrincipalController.setUsuarioAtual(usuarioConsultado);
-            
-            Parent telaPrincipal;
-            try {
-                telaPrincipal = FXMLLoader.load(Layout.loader("TelaPrincipal.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());
+                Parent root;
+                try {
+                    FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
+                    root = fxml.load();
+                    telaPrincipalController = fxml.getController();
+                    telaPrincipalController.setUsuarioAtual(usuarioConsultado);
+                } catch (IOException e) {
+                    throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());
+                }
+                App.getTela().setScene(new Scene(root));
+                App.getTela().centerOnScreen();
+            } else {
+                Alert alertaDadosIncorretos = new Alert(AlertType.ERROR);
+                alertaDadosIncorretos.setTitle("Autenticação Falhou");
+                alertaDadosIncorretos.setHeaderText("Dados incorretos, tente novamente");
+                alertaDadosIncorretos.showAndWait();
             }
-            App.getTela().setScene(new Scene(telaPrincipal));
-            App.getTela().centerOnScreen();
-        } else {
-            Alert alertaDadosIncorretos = new Alert(AlertType.ERROR);
-            alertaDadosIncorretos.setTitle("Autenticação Falhou");
-            alertaDadosIncorretos.setHeaderText("Dados incorretos, tente novamente");
-            alertaDadosIncorretos.showAndWait();
-        }
-
+        });
     }
 
 }
