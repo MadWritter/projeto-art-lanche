@@ -3,7 +3,7 @@ package com.artlanche.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.artlanche.model.entities.Cardapio;
+import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.transaction.CardapioDAO;
 
 import javafx.application.Platform;
@@ -24,13 +24,13 @@ public class TelaAlterarCardapioController implements Initializable {
 
     private TelaCardapioController telaCardapioController;
 
-    private Cardapio itemcCardapio;
+    private CardapioDTO itemcCardapio;
 
     private String nomeAntigo;
 
-    public void setItem(Cardapio c) {
-        if (c != null) {
-            itemcCardapio = c;
+    public void setItem(CardapioDTO dto) {
+        if (dto != null) {
+            itemcCardapio = dto;
         }
     }
 
@@ -47,12 +47,14 @@ public class TelaAlterarCardapioController implements Initializable {
         } else {
             try {
                 double valorNovoConvertido = Double.parseDouble(valorNovo);
-                boolean atualizou = CardapioDAO.alterarItem(nomeAntigo, nomeNovo, valorNovoConvertido);
+                var dados = new CardapioDTO(nomeNovo, valorNovoConvertido);
+                boolean atualizou = CardapioDAO.alterarItem(nomeAntigo, dados);
                 if (atualizou) {
                     telaCardapioController.atualizou();
                     Alert alerta = new Alert(AlertType.INFORMATION);
                     alerta.setTitle("Aviso");
                     alerta.setHeaderText("Item Atualizado com sucesso!");
+                    telaCardapioController.atualizou();
                     telaCardapioController.getStageAlterarCardapio().close();
                     alerta.showAndWait();
                 }

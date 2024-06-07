@@ -1,5 +1,7 @@
 package com.artlanche.model.entities;
 
+import com.artlanche.model.dtos.UsuarioDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,14 +55,13 @@ public class Usuario {
      * @throws IllegalArgumentException nos campos nome, cpf, email, login, senha e role 
      * caso estejam nulos ou vazios
      */
-    public Usuario(String nome, String cpf, String email, String login, 
-                    String senha) {
+    public Usuario(UsuarioDTO usuarioDTO, String senhaCifrada) {
                 
-            setNome(nome);
-            setCpf(cpf);
-            setEmail(email);
-            setLogin(login);
-            setSenha(senha);
+            setNome(usuarioDTO.getNome());
+            setCpf(usuarioDTO.getCpf());
+            setEmail(usuarioDTO.getEmail());
+            setLogin(usuarioDTO.getLogin());
+            setSenha(senhaCifrada);
             setRole("comum");
             setAtivo(true);
     }

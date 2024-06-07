@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.artlanche.App;
+import com.artlanche.model.dtos.UsuarioDTO;
 import com.artlanche.model.entities.Caixa;
-import com.artlanche.model.entities.Usuario;
 import com.artlanche.model.transaction.CaixaDAO;
 import com.artlanche.view.tools.Layout;
 
@@ -31,9 +31,9 @@ import lombok.Getter;
 @Getter
 public class TelaPrincipalController implements Initializable {
 
-    private Usuario usuarioAtual;
+    private UsuarioDTO usuarioAtual;
 
-    public Usuario getUsuarioAtual() {
+    public UsuarioDTO getUsuarioAtual() {
         return usuarioAtual;
     }
 
@@ -43,7 +43,7 @@ public class TelaPrincipalController implements Initializable {
         return this.caixaId;
     }
 
-    public void setUsuarioAtual(Usuario usuarioAtual) {
+    public void setUsuarioAtual(UsuarioDTO usuarioAtual) {
         if (usuarioAtual != null) {
             this.usuarioAtual = usuarioAtual;
         }
@@ -104,6 +104,7 @@ public class TelaPrincipalController implements Initializable {
                             telaOpController = fxml.getController();
                             telaOpController.setMainController(this);
                             telaOpController.setRoot(telaop);
+                            caixaId = consultaCaixa.getId();
                             App.getTela().setScene(new Scene(telaop));
                             App.getTela().centerOnScreen();
                         } catch(Exception e) {
@@ -115,7 +116,7 @@ public class TelaPrincipalController implements Initializable {
                 }
 
                 try {
-                    Thread.sleep(3000); // consultar a cada 3 segundos
+                    Thread.sleep(1000); // consultar a cada 1 segundo
                 } catch(InterruptedException e) {
                     System.out.println("Saiu da Thread");
                 }

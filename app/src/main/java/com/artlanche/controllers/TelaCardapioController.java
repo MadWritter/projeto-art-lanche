@@ -4,15 +4,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-import com.artlanche.model.entities.Cardapio;
+import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.transaction.CardapioDAO;
 import com.artlanche.view.tools.Layout;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,12 +28,12 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 @Getter
-public class TelaCardapioController implements Initializable{
+public class TelaCardapioController implements Initializable {
 
     @FXML
     private ListView<String> itensCardapio;
 
-    private ObservableList<String> listaItensCardapio;
+    private List<CardapioDTO> consulta;
 
     @FXML
     private Label valorPorUnidade;
@@ -84,13 +83,13 @@ public class TelaCardapioController implements Initializable{
     void alterarItem(ActionEvent event) throws Exception {
         String selecionado = itensCardapio.getSelectionModel().getSelectedItem();
         if (selecionado != null && !selecionado.isBlank()) {
-            Cardapio c = CardapioDAO.getItemCardapioByDescricao(selecionado);
+            CardapioDTO dto = consulta.stream().filter(i -> i.getDescricaoItem().equals(selecionado)).collect(Collectors.toList()).get(0);
             FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaAlterarCardapio.fxml"));
             Parent root = fxml.load();
 
             telaAlterarCardapio = fxml.getController();
             telaAlterarCardapio.setMainController(this);
-            telaAlterarCardapio.setItem(c);
+            telaAlterarCardapio.setItem(dto);
 
             stageAlterarCardapio = new Stage();
             stageAlterarCardapio.setScene(new Scene(root));
@@ -128,11 +127,10 @@ public class TelaCardapioController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textoLabel = valorPorUnidade.getText();
-        listaItensCardapio = FXCollections.observableArrayList();
-        List<String> consulta = CardapioDAO.getListaCardapio();
+        consulta = CardapioDAO.getListaCardapio();
         if (consulta != null && !consulta.isEmpty()) {
-            listaItensCardapio.setAll(consulta);
-            itensCardapio.setItems(listaItensCardapio);
+            List<String> descricao = consulta.stream().map(i -> i.getDescricaoItem()).collect(Collectors.toList());
+            itensCardapio.getItems().addAll(descricao);
             itensCardapio.refresh();
         } else {
             Alert alerta = new Alert(AlertType.INFORMATION);
@@ -146,8 +144,8 @@ public class TelaCardapioController implements Initializable{
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 String selecionado = itensCardapio.getSelectionModel().getSelectedItem();
                 if (selecionado != null && !selecionado.isBlank()) {
-                    Cardapio consultado = CardapioDAO.getItemCardapioByDescricao(selecionado);
-                    String valorBr = Double.toString(consultado.getValorPorUnidade()).replace(".", ",");
+                    CardapioDTO item = consulta.stream().filter(i -> i.getDescricaoItem().equals(selecionado)).collect(Collectors.toList()).get(0);
+                    String valorBr = Double.toString(item.getValorPorUnidade()).replace(".", ",");
                     valorPorUnidade.setText(textoLabel + " R$ " + valorBr);
                 }
             }
@@ -156,22 +154,24 @@ public class TelaCardapioController implements Initializable{
 
     @FXML
     void atualizarLista(ActionEvent event) {
-        if (listaItensCardapio != null || !listaItensCardapio.isEmpty()) {
-            listaItensCardapio.clear();
-            List<String> consulta = CardapioDAO.getListaCardapio();
+        if (itensCardapio != null || !itensCardapio.getItems().isEmpty()) {
+            itensCardapio.getItems().clear();
+            consulta = CardapioDAO.getListaCardapio();
             if (consulta != null && !consulta.isEmpty()) {
-                listaItensCardapio.setAll(consulta);
+                List<String> descricao = consulta.stream().map(i -> i.getDescricaoItem()).collect(Collectors.toList());
+                itensCardapio.getItems().addAll(descricao);
                 itensCardapio.refresh();
             }
         }
     }
 
     public void atualizou() {
-        if (listaItensCardapio != null || !listaItensCardapio.isEmpty()) {
-            listaItensCardapio.clear();
-            List<String> consulta = CardapioDAO.getListaCardapio();
+        if (itensCardapio != null || !itensCardapio.getItems().isEmpty()) {
+            itensCardapio.getItems().clear();
+            consulta = CardapioDAO.getListaCardapio();
             if (consulta != null && !consulta.isEmpty()) {
-                listaItensCardapio.setAll(consulta);
+                List<String> descricao = consulta.stream().map(i -> i.getDescricaoItem()).collect(Collectors.toList());
+                itensCardapio.getItems().addAll(descricao);
                 itensCardapio.refresh();
             }
         }

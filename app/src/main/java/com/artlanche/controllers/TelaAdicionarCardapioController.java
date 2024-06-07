@@ -1,5 +1,6 @@
 package com.artlanche.controllers;
 
+import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.transaction.CardapioDAO;
 
 import javafx.event.ActionEvent;
@@ -34,14 +35,20 @@ public class TelaAdicionarCardapioController {
             alerta.showAndWait();
         } else {
             double valorConvertido = converterValorUnidade(valorString);
-            boolean registrou = CardapioDAO.adicionarItem(nomeItem, valorConvertido);
+            var dados = new CardapioDTO(nomeItem, valorConvertido);
+            boolean registrou = CardapioDAO.adicionarItem(dados);
             if (registrou) {
                 Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Aviso");
                 alerta.setHeaderText("Item inserido com sucesso!");
-                alerta.showAndWait();
                 telaCardapioController.atualizou();
                 telaCardapioController.getStageAdicionarCardapio().close();
+                alerta.showAndWait();
+            } else {
+                Alert itemExistente = new Alert(AlertType.ERROR);
+                itemExistente.setHeaderText("A descrição desse item já existe no cardápio");
+                itemExistente.setTitle("Aviso");
+                itemExistente.showAndWait();
             }
         }
 

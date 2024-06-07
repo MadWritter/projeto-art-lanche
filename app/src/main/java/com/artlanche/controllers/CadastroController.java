@@ -3,6 +3,7 @@ package com.artlanche.controllers;
 import java.io.IOException;
 
 import com.artlanche.App;
+import com.artlanche.model.dtos.UsuarioDTO;
 import com.artlanche.model.transaction.CadastrarDAO;
 import com.artlanche.view.tools.Layout;
 import javafx.event.ActionEvent;
@@ -64,7 +65,8 @@ public class CadastroController {
             alertaCamposVazios.setHeaderText("Um dos campos obrigatórios está vazio!");
             alertaCamposVazios.showAndWait();
         } else {
-            boolean cadastrou = CadastrarDAO.novoUsuario(nome, cpf, email, login, senha);
+            var dados = new UsuarioDTO(nome, cpf, email, login, senha);
+            boolean cadastrou = CadastrarDAO.novoUsuario(dados);
 
             if (cadastrou) {
                 Alert cadastroSucesso = new Alert(AlertType.INFORMATION);

@@ -3,7 +3,7 @@ package com.artlanche.controllers;
 import java.io.IOException;
 
 import com.artlanche.App;
-import com.artlanche.model.entities.Usuario;
+import com.artlanche.model.dtos.UsuarioDTO;
 import com.artlanche.model.transaction.LoginDAO;
 import com.artlanche.view.tools.Layout;
 
@@ -112,32 +112,39 @@ public class AppController {
     @FXML
     void login(String login, String senha) {
         Platform.runLater(() -> {
+            try {
 
-            Usuario usuarioConsultado = LoginDAO.fazerLogin(login, senha);
+                UsuarioDTO usuarioConsultado = LoginDAO.fazerLogin(login, senha);
+        
+                if (usuarioConsultado != null) {
+        
+                    Alert alertaLogin = new Alert(AlertType.INFORMATION);
+                    alertaLogin.setTitle("Autenticado com sucesso");
+                    alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
+                    alertaLogin.showAndWait();
     
-            if (usuarioConsultado != null) {
-    
-                Alert alertaLogin = new Alert(AlertType.INFORMATION);
-                alertaLogin.setTitle("Autenticado com sucesso");
-                alertaLogin.setHeaderText("Bem vindo, " + usuarioConsultado.getNome());
-                alertaLogin.showAndWait();
-
-                Parent root;
-                try {
-                    FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
-                    root = fxml.load();
-                    telaPrincipalController = fxml.getController();
-                    telaPrincipalController.setUsuarioAtual(usuarioConsultado);
-                } catch (IOException e) {
-                    throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());
+                    Parent root;
+                    try {
+                        FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
+                        root = fxml.load();
+                        telaPrincipalController = fxml.getController();
+                        telaPrincipalController.setUsuarioAtual(usuarioConsultado);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());
+                    }
+                    App.getTela().setScene(new Scene(root));
+                    App.getTela().centerOnScreen();
+                } else {
+                    Alert alertaDadosIncorretos = new Alert(AlertType.ERROR);
+                    alertaDadosIncorretos.setTitle("Autenticação Falhou");
+                    alertaDadosIncorretos.setHeaderText("Dados incorretos, tente novamente");
+                    alertaDadosIncorretos.showAndWait();
                 }
-                App.getTela().setScene(new Scene(root));
-                App.getTela().centerOnScreen();
-            } else {
-                Alert alertaDadosIncorretos = new Alert(AlertType.ERROR);
-                alertaDadosIncorretos.setTitle("Autenticação Falhou");
-                alertaDadosIncorretos.setHeaderText("Dados incorretos, tente novamente");
-                alertaDadosIncorretos.showAndWait();
+            } catch(IllegalArgumentException e) {
+                Alert alerta = new Alert(AlertType.ERROR);
+                alerta.setHeaderText("Um dos campos informados está vazio");
+                alerta.setTitle("Aviso");
+                alerta.showAndWait();
             }
         });
     }

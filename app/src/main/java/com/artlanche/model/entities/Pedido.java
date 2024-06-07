@@ -2,6 +2,7 @@ package com.artlanche.model.entities;
 
 import java.util.List;
 
+import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.dtos.PedidoDTO;
 
 import jakarta.persistence.Column;
@@ -48,10 +49,10 @@ public class Pedido {
         this.concluido = false;
     }
 
-    private Long[] associarIDItemCardapio(List<Cardapio> itensDoCardapio) {
+    private Long[] associarIDItemCardapio(List<CardapioDTO> itensDoCardapio) {
         Long[] array = new Long[itensDoCardapio.size()];
         int contador = 0;
-        for(Cardapio item : itensDoCardapio) {
+        for(CardapioDTO item : itensDoCardapio) {
             long idAtual = item.getId();
             array[contador] = idAtual;
             contador++;

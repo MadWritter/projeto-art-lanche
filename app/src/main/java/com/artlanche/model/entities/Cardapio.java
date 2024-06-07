@@ -1,5 +1,7 @@
 package com.artlanche.model.entities;
 
+import com.artlanche.model.dtos.CardapioDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,12 +24,15 @@ public class Cardapio {
     private String descricaoItem;
     @Column(name = "valor_por_unidade", nullable = false)
     private double valorPorUnidade;
+    @Column(name = "ativo", nullable = false)
+    private boolean ativo;
 
-    public Cardapio(String descricaoItem, double valorPorUnidade) {
-        if (descricaoItem != null) {
-            this.descricaoItem = descricaoItem;
+    public Cardapio(CardapioDTO item) {
+        if (item != null) {
+            this.descricaoItem = item.getDescricaoItem();
         }
-        this.valorPorUnidade = valorPorUnidade;
+        this.valorPorUnidade = item.getValorPorUnidade();
+        this.ativo = true;
     }
 
     public void setDescricao(String descricao) {
@@ -38,5 +43,13 @@ public class Cardapio {
 
     public void setValorPorUnidade(double valor) {
         this.valorPorUnidade = valor;
+    }
+
+    public void ativarItem() {
+        this.ativo = true;
+    }
+
+    public void desativarItem() {
+        this.ativo = false;
     }
 }

@@ -2,7 +2,9 @@ package com.artlanche.model.transaction;
 
 import java.util.List;
 
+import com.artlanche.model.dtos.UsuarioDTO;
 import com.artlanche.model.entities.Usuario;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.EntityManager;
 
@@ -22,7 +24,7 @@ public class LoginDAO {
      * @throws IllegalArgumentException caso o login ou senha passados como parâmetro
      * sejam nulos ou vazios.
      */
-    public static Usuario fazerLogin(String login, String senhaInformada) {
+    public static UsuarioDTO fazerLogin(String login, String senhaInformada) {
         if (login.isBlank() || senhaInformada.isBlank()) {
             throw new IllegalArgumentException("Login ou senha informados são nulos ou vazios");
         }
@@ -56,10 +58,10 @@ public class LoginDAO {
      * @param senhaInformada - a senha que deseja comparar
      * @return um Usuario caso o hash seja igual ou null caso o hash seja diferente
      */
-    private static Usuario validarSenha(Usuario usuario, String senhaInformada) {
+    private static UsuarioDTO validarSenha(Usuario usuario, String senhaInformada) {
         boolean validou = BCrypt.verifyer().verify(senhaInformada.toCharArray(), usuario.getSenha().toCharArray()).verified;
         if (validou) {
-            return usuario;
+            return new UsuarioDTO(usuario);
         } else {
             return null;
         }
