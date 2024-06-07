@@ -146,7 +146,14 @@ public class TelaCardapioController implements Initializable {
                 if (selecionado != null && !selecionado.isBlank()) {
                     CardapioDTO item = consulta.stream().filter(i -> i.getDescricaoItem().equals(selecionado)).collect(Collectors.toList()).get(0);
                     String valorBr = Double.toString(item.getValorPorUnidade()).replace(".", ",");
+                    if (valorBr.endsWith("0") && valorBr.charAt(valorBr.length() - 2) == ',') {
+                        valorBr = valorBr.concat("0");
+                    } else if (valorBr.endsWith("5") && valorBr.charAt(valorBr.length() - 2) == ',') {
+                        valorBr = valorBr.concat("0");
+                    }
                     valorPorUnidade.setText(textoLabel + " R$ " + valorBr);
+                } else {
+                    valorPorUnidade.setText(textoLabel);
                 }
             }
         });

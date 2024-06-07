@@ -12,6 +12,8 @@ import com.artlanche.model.transaction.PedidoDAO;
 import com.artlanche.view.tools.Layout;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +38,7 @@ public class TelaOpController implements Initializable {
 
     @FXML
     private Label campoDesconto;
+    private String campoDescontoTexto;
 
     @FXML
     private TextArea campoItensCardapio;
@@ -178,6 +181,7 @@ public class TelaOpController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             pedidos = new ArrayList<>();
+            campoDescontoTexto = campoDesconto.getText();
             atualizou();
             caixaId = telaPrincipalController.getCaixaId();
             String usuarioAtual = telaPrincipalController.getUsuarioAtual().getNome();
@@ -186,6 +190,16 @@ public class TelaOpController implements Initializable {
             campoComanda.setEditable(false);
             campoItensCardapio.setEditable(false);
             campoNumeroPedido.setEditable(false);
+
+        });
+        listaDePedidos.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                String selecionado = listaDePedidos.getSelectionModel().getSelectedItem();
+                if (selecionado != null && !selecionado.isBlank()) {
+                    //TODO atualizar a view do painel esquerdo
+                }
+            }
         });
     }
 
@@ -210,5 +224,4 @@ public class TelaOpController implements Initializable {
             }
         });
     }
-
 }

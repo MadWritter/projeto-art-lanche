@@ -54,30 +54,40 @@ public class TelaCardapioPedidoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-            textoLabel = valorPorUnidade.getText();
-            itensConsultados = CardapioDAO.getListaCardapio();
-            if (itensConsultados != null && !itensConsultados.isEmpty()) {
-                List<String> descricao = itensConsultados.stream().map(i -> i.getDescricaoItem()).collect(Collectors.toList());
-                itensCardapio.getItems().addAll(descricao);
-                itensCardapio.refresh();
-            } else {
-                Alert alerta = new Alert(AlertType.ERROR);
-                alerta.setHeaderText("Adicione itens no cardápio primeiro!");
-                alerta.setTitle("Aviso");
-                alerta.showAndWait();
-                novoPedidoController.getStageCardapioPedidoController().close();
-            }
-    
-            itensCardapio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    String descricao = itensCardapio.getSelectionModel().getSelectedItem();
-                    if (descricao != null && !descricao.isBlank()) {
-                        item = itensConsultados.stream().filter(i -> i.getDescricaoItem().equals(descricao)).collect(Collectors.toList()).get(0);
-                        valorPorUnidade.setText(textoLabel + " " + item.getValorPorUnidade());
+        textoLabel = valorPorUnidade.getText();
+        itensConsultados = CardapioDAO.getListaCardapio();
+        if (itensConsultados != null && !itensConsultados.isEmpty()) {
+            List<String> descricao = itensConsultados.stream().map(i -> i.getDescricaoItem())
+                    .collect(Collectors.toList());
+            itensCardapio.getItems().addAll(descricao);
+            itensCardapio.refresh();
+        } else {
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setHeaderText("Adicione itens no cardápio primeiro!");
+            alerta.setTitle("Aviso");
+            alerta.showAndWait();
+            novoPedidoController.getStageCardapioPedidoController().close();
+        }
+
+        itensCardapio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                String selecionado = itensCardapio.getSelectionModel().getSelectedItem();
+                if (selecionado != null && !selecionado.isBlank()) {
+                    item = itensConsultados.stream().filter(i -> i.getDescricaoItem().equals(selecionado))
+                            .collect(Collectors.toList()).get(0);
+                    String valorBr = Double.toString(item.getValorPorUnidade()).replace(".", ",");
+                    if (valorBr.endsWith("0") && valorBr.charAt(valorBr.length() - 2) == ',') {
+                        valorBr = valorBr.concat("0");
+                    } else if (valorBr.endsWith("5") && valorBr.charAt(valorBr.length() - 2) == ',') {
+                        valorBr = valorBr.concat("0");
                     }
+                    valorPorUnidade.setText(textoLabel + " R$ " + valorBr);
+                } else {
+                    valorPorUnidade.setText(textoLabel);
                 }
-            });
+            }
+        });
     }
 
     public void setMainController(TelaNovoPedidoController telaNovoPedidoController) {
