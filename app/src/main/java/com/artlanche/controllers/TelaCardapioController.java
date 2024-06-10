@@ -76,6 +76,7 @@ public class TelaCardapioController implements Initializable {
         stageAdicionarCardapio.setScene(new Scene(root));
         stageAdicionarCardapio.initModality(Modality.WINDOW_MODAL);
         stageAdicionarCardapio.initOwner(esteRoot.getScene().getWindow());
+        stageAdicionarCardapio.setTitle("Adicionar Item");
         stageAdicionarCardapio.show();
     }
 
@@ -95,6 +96,7 @@ public class TelaCardapioController implements Initializable {
             stageAlterarCardapio.setScene(new Scene(root));
             stageAlterarCardapio.initModality(Modality.WINDOW_MODAL);
             stageAlterarCardapio.initOwner(esteRoot.getScene().getWindow());
+            stageAlterarCardapio.setTitle("Alterar Item");
             stageAlterarCardapio.show();
         } else {
             Alert alerta = new Alert(AlertType.ERROR);

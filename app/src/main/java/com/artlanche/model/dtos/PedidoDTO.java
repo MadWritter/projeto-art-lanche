@@ -17,9 +17,10 @@ public class PedidoDTO {
     private String comanda;
     private Double valorComanda;
     private Double desconto;
+    private Double total;
 
     public PedidoDTO(Long caixaId,
-        List<CardapioDTO> itensDoCardapio, String comanda, Double valorComanda, Double desconto) {
+        List<CardapioDTO> itensDoCardapio, String comanda, Double valorComanda, Double desconto, Double total) {
             this.caixaId = caixaId;
             if (itensDoCardapio != null) {
                 this.itensDoCardapio = itensDoCardapio;
@@ -33,6 +34,10 @@ public class PedidoDTO {
             if (desconto != null) {
                 this.desconto = desconto;
             }
+            if (total != null) {
+                this.total = total;
+
+            }
     }
 
     public PedidoDTO(Pedido pedido) {
@@ -42,6 +47,7 @@ public class PedidoDTO {
         this.comanda = pedido.getTextoComanda();
         this.valorComanda = pedido.getValorComanda();
         this.desconto = pedido.getValorDesconto();
+        this.total = pedido.getTotal();
     }
 
     private List<CardapioDTO> associarListaCardapio(Long[] itensCardapioId) {
@@ -52,5 +58,25 @@ public class PedidoDTO {
             lista.add(cardapio);
         }
         return lista;
+    }
+
+    public void setItems(List<CardapioDTO> items) {
+        this.itensDoCardapio = items;
+    }
+
+    public void setComanda(String text) {
+        this.comanda = text;
+    }
+
+    public void setValorComanda(Double valorComanda2) {
+        this.valorComanda = valorComanda2;
+    }
+
+    public void setDesconto(Double valorDesconto) {
+        this.desconto = valorDesconto;
+    }
+
+    public void setTotal(Double total2) {
+        this.total = total2;
     }
 }

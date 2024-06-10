@@ -61,6 +61,8 @@ public class TelaPrincipalController implements Initializable {
 
     private TelaOpController telaOpController;
 
+    private int contador = 0;
+
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
         FXMLLoader novoCaixa = new FXMLLoader(Layout.loader("AberturaCaixa.fxml"));
@@ -81,49 +83,30 @@ public class TelaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Thread thread = new Thread(() -> {
-            int contador = 0;
+        consultaCaixa = CaixaDAO.verificarSeCaixaAberto();
 
-            while(consultaCaixa == null) {
-                consultaCaixa = CaixaDAO.verificarSeCaixaAberto();
-
-                if (consultaCaixa != null) {
-                    if (contador == 0) {
-                        Platform.runLater(() -> {
-                            Alert alerta = new Alert(AlertType.INFORMATION);
-                            alerta.setTitle("Aviso!");
-                            alerta.setHeaderText("Já existe um caixa aberto!");
-                            alerta.showAndWait();
-                        });
-                    }
-
-                    Platform.runLater(() -> {
-                        try {
-                            FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaOp.fxml"));
-                            Parent telaop = fxml.load();
-                            telaOpController = fxml.getController();
-                            telaOpController.setMainController(this);
-                            telaOpController.setRoot(telaop);
-                            caixaId = consultaCaixa.getId();
-                            App.getTela().setScene(new Scene(telaop));
-                            App.getTela().centerOnScreen();
-                        } catch(Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                } else {
-                    contador++;
-                }
-
+        if (consultaCaixa != null) {
+            Platform.runLater(() -> {
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Aviso!");
+                alerta.setHeaderText("Já existe um caixa aberto!");
+                alerta.showAndWait();
                 try {
-                    Thread.sleep(1000); // consultar a cada 1 segundo
-                } catch(InterruptedException e) {
-                    System.out.println("Saiu da Thread");
+                    FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaOp.fxml"));
+                    Parent telaop = fxml.load();
+                    telaOpController = fxml.getController();
+                    telaOpController.setMainController(this);
+                    telaOpController.setRoot(telaop);
+                    caixaId = consultaCaixa.getId();
+                    App.getTela().setScene(new Scene(telaop));
+                    App.getTela().centerOnScreen();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
-            }
-        });
-
-        thread.start();
+            });
+        } else {
+            contador++;
+        }
     }
 
     /**
@@ -147,6 +130,27 @@ public class TelaPrincipalController implements Initializable {
     public void idRecebido(Long id) {
         if (id != null) {
             this.caixaId = id;
+        }
+    }
+
+    public void caixaCriado() {
+        consultaCaixa = CaixaDAO.verificarSeCaixaAberto();
+
+        if (consultaCaixa != null) {
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaOp.fxml"));
+                    Parent telaop = fxml.load();
+                    telaOpController = fxml.getController();
+                    telaOpController.setMainController(this);
+                    telaOpController.setRoot(telaop);
+                    caixaId = consultaCaixa.getId();
+                    App.getTela().setScene(new Scene(telaop));
+                    App.getTela().centerOnScreen();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 

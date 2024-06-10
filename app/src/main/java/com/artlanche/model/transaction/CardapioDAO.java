@@ -95,7 +95,6 @@ public class CardapioDAO {
 
     public static Cardapio getItemCardapioByDescricao(String item) {
         try(EntityManager em = Database.getCardapioManager()) {
-            em.getTransaction().begin();
             var query = em.createQuery("SELECT c FROM Cardapio c WHERE c.descricaoItem=:item", Cardapio.class);
             query.setParameter("item", item);
             return query.getSingleResult();
@@ -106,7 +105,6 @@ public class CardapioDAO {
 
     public static CardapioDTO getCardapioById(Long id) {
         try(EntityManager em = Database.getCardapioManager()) {
-            em.getTransaction().begin();
             var query = em.createQuery("SELECT c FROM Cardapio c WHERE c.id=:id", Cardapio.class);
             query.setParameter("id", id);
             Cardapio c = query.getSingleResult();

@@ -25,7 +25,7 @@ interface Settings {
     static Map<String, String> configureDatabase() {
         Map<String, String> configuration = new HashMap<>();
         Properties data = loadProperties();
-
+        
         configuration.put("jakarta.persistence.jdbc.url", data.getProperty("url"));
         configuration.put("jakarta.persistence.jdbc.user", data.getProperty("usr"));
         configuration.put("jakarta.persistence.jdbc.password", data.getProperty("pwd"));

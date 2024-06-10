@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.artlanche.model.entities.Caixa;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import javafx.scene.control.Alert;
@@ -51,7 +52,6 @@ public class CaixaDAO {
      */
     public static Caixa verificarSeCaixaAberto() {
         try(EntityManager em = Database.getCaixaManager()) {
-            em.getTransaction().begin();
             var query = em.createQuery("SELECT c FROM Caixa c WHERE c.aberto=true", Caixa.class);
 
             List<Caixa> resultList = query.getResultList();
@@ -67,11 +67,42 @@ public class CaixaDAO {
 
     public static Long getCaixaAbertoId() {
         try(EntityManager em = Database.getCaixaManager()) {
-            em.getTransaction().begin();
             var query = em.createQuery("SELECT c.id FROM Caixa c WHERE c.aberto=true", Long.class);
             return query.getSingleResult();
         } catch(Exception e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static boolean fecharCaixa(Long caixaID, String descricao,Double valorFinal, LocalDate dataFechamento,
+            String usuarioFechamento, List<Long> ids) {
+        try(EntityManager em = Database.getCaixaManager()) {
+            em.getTransaction().begin();
+            Caixa c = em.find(Caixa.class, caixaID);
+            if (c != null) {
+                c.setDescricao(descricao);
+                if (valorFinal != null) {
+                    c.setValorFinal(valorFinal + c.getValorInicial());
+                } else {
+                    c.setValorFinal(0.0);
+                }
+                c.setDataFechamento(dataFechamento);
+                c.setOpFechamento(usuarioFechamento);
+                c.setIdPedidos(ids);
+                if (valorFinal != null) {
+                    c.setLucro(c.getValorFinal() - c.getValorInicial());
+                } else {
+                    c.setLucro(0.0);
+                }
+                c.setAberto(false);
+                em.flush();
+                em.getTransaction().commit();
+                return true;
+            } else {
+                throw new PersistenceException();
+            } 
+        } catch(PersistenceException e) {
+            return false;
         }
     }
 }

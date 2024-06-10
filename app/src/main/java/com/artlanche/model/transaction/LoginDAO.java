@@ -28,27 +28,26 @@ public class LoginDAO {
         if (login.isBlank() || senhaInformada.isBlank()) {
             throw new IllegalArgumentException("Login ou senha informados são nulos ou vazios");
         }
-        
-        EntityManager em = Database.getUserManager();
-        em.getTransaction().begin();
-
-        // consulta com os dados fornecidos
-        var query = em.createQuery("SELECT u FROM Usuario u WHERE u.login = :login",Usuario.class);
-
-        query.setParameter("login", login);
-
-        List<Usuario> resultList = query.getResultList();
-        Usuario usuario;
-        
-        if (!resultList.isEmpty()) {
-            usuario = resultList.get(0);
-            em.getTransaction().commit();
-            em.close();
-            return validarSenha(usuario, senhaInformada);
-        } else {
-            em.getTransaction().commit();
-            em.close();
-            return null;
+        try (EntityManager em = Database.getUserManager()) {
+            em.getTransaction().begin();
+            var query = em.createQuery("SELECT u FROM Usuario u WHERE u.login = :login",Usuario.class);
+            query.setParameter("login", login);
+    
+            List<Usuario> resultList = query.getResultList();
+            Usuario usuario;
+            
+            if (!resultList.isEmpty()) {
+                usuario = resultList.get(0);
+                em.getTransaction().commit();
+                em.close();
+                return validarSenha(usuario, senhaInformada);
+            } else {
+                em.getTransaction().commit();
+                em.close();
+                return null;
+            }
+        } catch(Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 

@@ -33,6 +33,8 @@ public class Pedido {
     private Double valorComanda;
     @Column(name = "desconto",nullable = true)
     private Double valorDesconto;
+    @Column(name = "total")
+    private Double total;
     @Column(name = "concluido", nullable = false)
     private Boolean concluido;
 
@@ -46,21 +48,42 @@ public class Pedido {
         this.textoComanda = pedidoDTO.getComanda();
         this.valorComanda = pedidoDTO.getValorComanda();
         this.valorDesconto = pedidoDTO.getDesconto();
+        this.total = pedidoDTO.getTotal();
         this.concluido = false;
     }
 
-    private Long[] associarIDItemCardapio(List<CardapioDTO> itensDoCardapio) {
-        Long[] array = new Long[itensDoCardapio.size()];
-        int contador = 0;
-        for(CardapioDTO item : itensDoCardapio) {
-            long idAtual = item.getId();
-            array[contador] = idAtual;
-            contador++;
+    public Long[] associarIDItemCardapio(List<CardapioDTO> itensDoCardapio) {
+        if (itensDoCardapio != null) {
+            Long[] array = new Long[itensDoCardapio.size()];
+            int contador = 0;
+            for(CardapioDTO item : itensDoCardapio) {
+                long idAtual = item.getId();
+                array[contador] = idAtual;
+                contador++;
+            }
+            return array;
+        } else {
+            return null;
         }
-        return array;
     }
 
     public void concluirPedido() {
         this.concluido = true;
+    }
+
+    public void setTextoComanda(String comanda) {
+        this.textoComanda = comanda;
+    }
+
+    public void setValorComanda(Double valorComanda2) {
+        this.valorComanda = valorComanda2;
+    }
+
+    public void setDesconto(Double desconto) {
+        this.valorDesconto = desconto;
+    }
+
+    public void setTotal(Double total2) {
+        this.total = total2;
     }
 }

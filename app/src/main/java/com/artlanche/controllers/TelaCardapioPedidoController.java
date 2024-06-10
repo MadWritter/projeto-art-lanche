@@ -32,17 +32,30 @@ public class TelaCardapioPedidoController implements Initializable {
 
     private TelaNovoPedidoController novoPedidoController;
 
+    private TelaAlterarPedidoController alterarPedidoController;
+
     private String textoLabel;
 
     @FXML
     void selecionarItem(ActionEvent event) {
         if (item != null) {
-            novoPedidoController.setItem(item);
-            novoPedidoController.itemAdicionado();
+            if (novoPedidoController != null) {
+                novoPedidoController.setItem(item);
+                novoPedidoController.itemAdicionado();
+            }
+            if (alterarPedidoController != null) {
+                alterarPedidoController.setItem(item);
+                alterarPedidoController.itemAdicionado();
+            }
             Alert alerta = new Alert(AlertType.INFORMATION);
             alerta.setHeaderText("Item adicionado com sucesso!");
             alerta.setTitle("Aviso");
-            novoPedidoController.getStageCardapioPedidoController().close();
+            if (novoPedidoController != null) {
+                novoPedidoController.getStageCardapioPedidoController().close();
+            }
+            if (alterarPedidoController != null) {
+                alterarPedidoController.getStageCardapioPedido().close();
+            }
             alerta.showAndWait();
         } else {
             Alert alerta = new Alert(AlertType.ERROR);
@@ -93,6 +106,12 @@ public class TelaCardapioPedidoController implements Initializable {
     public void setMainController(TelaNovoPedidoController telaNovoPedidoController) {
         if (telaNovoPedidoController != null) {
             this.novoPedidoController = telaNovoPedidoController;
+        }
+    }
+
+    public void setAlterarPedidoController(TelaAlterarPedidoController alterarPedidoController) {
+        if (alterarPedidoController != null) {
+            this.alterarPedidoController = alterarPedidoController;
         }
     }
 }

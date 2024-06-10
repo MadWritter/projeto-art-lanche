@@ -44,6 +44,7 @@ public class AberturaCaixaController {
                 Long id = CaixaDAO.novoCaixa(valorInicial, dataAbertura, telaPrincipal.getUsuarioAtual().getNome());
                 if (id != null) {
                     enviarId(id);
+                    telaPrincipal.caixaCriado();
                     telaPrincipal.getStageNovoCaixa().close();
                 } else {
                     throw new NullPointerException();

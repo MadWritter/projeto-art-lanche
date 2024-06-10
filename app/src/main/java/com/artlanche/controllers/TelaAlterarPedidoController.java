@@ -28,10 +28,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lombok.Getter;
 
-@Getter
-public class TelaNovoPedidoController implements Initializable {
+public class TelaAlterarPedidoController implements Initializable{
 
     @FXML
     private TextField campoDesconto;
@@ -41,61 +39,54 @@ public class TelaNovoPedidoController implements Initializable {
 
     private List<CardapioDTO> items;
 
-    private CardapioDTO item;
-
     @FXML
     private TextArea textoComanda;
 
     @FXML
     private TextField valorAdicional;
 
-    private TelaOpController controllerPai;
+    private TelaOpController mainController;
+
+    private PedidoDTO pedidoParaAlterar;
 
     private TelaCardapioPedidoController cardapioPedidoController;
 
-    private Stage stageCardapioPedidoController;
+    private Stage stageCardapioPedido;
 
-    private Parent esteRoot;
+    private Parent root;
 
+    private CardapioDTO item;
 
-    public void setItem(CardapioDTO item) {
-        if (item != null) {
-            this.item = item;
+    public void pedidoParaAlterar(PedidoDTO pedido) {
+        if (pedido != null) {
+            this.pedidoParaAlterar = pedido;
         }
     }
 
-    public void setRoot(Parent root) {
-        if (root != null) {
-            esteRoot = root;
-        }
-    }
-
-    public Stage getNovoPedidoStage() {
-        return stageCardapioPedidoController;
+    public Stage getStageCardapioPedido() {
+        return this.stageCardapioPedido;
     }
 
     @FXML
     void adicionarItem(ActionEvent event) throws Exception {
-        FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaCardapioPedido.fxml"));
-        Parent root = fxml.load();
+        FXMLLoader telaAdicionarItem = new FXMLLoader(Layout.loader("TelaCardapioPedido.fxml"));
+        Parent rootAdicionarItem = telaAdicionarItem.load();
 
-        cardapioPedidoController = fxml.getController();
-        cardapioPedidoController.setMainController(this);
+        cardapioPedidoController = telaAdicionarItem.getController();
+        cardapioPedidoController.setAlterarPedidoController(this);
 
-        stageCardapioPedidoController = new Stage();
-        stageCardapioPedidoController.setScene(new Scene(root));
-        stageCardapioPedidoController.initModality(Modality.WINDOW_MODAL);
-        stageCardapioPedidoController.initOwner(esteRoot.getScene().getWindow());
-        stageCardapioPedidoController.setTitle("Adicionar item do cardápio");
-        stageCardapioPedidoController.show();
+        stageCardapioPedido = new Stage();
+        stageCardapioPedido.setScene(new Scene(rootAdicionarItem));
+        stageCardapioPedido.initModality(Modality.WINDOW_MODAL);
+        stageCardapioPedido.initOwner(root.getScene().getWindow());
+        stageCardapioPedido.setTitle("Adicionar item do cardápio");
+        stageCardapioPedido.show();
     }
 
     @FXML
     void finalizar(ActionEvent event) {
         Platform.runLater(() -> {
-
             try {
-                Long caixaId = controllerPai.getCaixaId();
                 boolean semItensOuComanda = textoComanda.getText().isBlank() && listaItensCardapio.getItems().isEmpty()
                         ? true
                         : false;
@@ -107,7 +98,7 @@ public class TelaNovoPedidoController implements Initializable {
                         : false;
                 if (semItensOuComanda) {
                     Alert semItems = new Alert(AlertType.ERROR);
-                    semItems.setHeaderText("Adicione itens do cardápio ou uma comanda");
+                    semItems.setHeaderText("O pedido alterado está vazio!");
                     semItems.setTitle("Aviso");
                     semItems.showAndWait();
                 } else if (comandaSemValorAdicional) {
@@ -121,68 +112,63 @@ public class TelaNovoPedidoController implements Initializable {
                     semItems.setTitle("Aviso");
                     semItems.showAndWait();
                 } else {
-    
-                    // comanda e valor da comanda e desconto
                     String comanda = null;
                     Double valorComanda = null;
-                    Double desconto = null;
+                    Double valorDesconto = null;
                     Double total = null;
-
-                    if (textoComanda != null && !textoComanda.getText().isBlank()) {
+                    if (items.isEmpty()) {
+                        items = null;
+                    }
+                    pedidoParaAlterar.setItems(items);
+                    if (!textoComanda.getText().isBlank()) {
                         comanda = textoComanda.getText();
                     }
-    
-                    if (valorAdicional != null && !valorAdicional.getText().isBlank()) {
-                        String valorAdicionalString = valorAdicional.getText();
-                        if (valorAdicionalString.contains(",")) {
-                            valorAdicionalString = valorAdicionalString.replace(",", ".");
-                            valorComanda = Double.parseDouble(valorAdicionalString);
-                        } else {
-                            throw new NumberFormatException();
-                        }
+                    pedidoParaAlterar.setComanda(comanda);
+                    if (!valorAdicional.getText().isBlank()) {
+                        String valorSemVirgula = valorAdicional.getText().replace(",", ".");
+                        valorComanda = Double.parseDouble(valorSemVirgula);
                     }
-    
-                    if (campoDesconto != null && !campoDesconto.getText().isBlank()) {
-                        String stringDesconto = campoDesconto.getText();
-                        if (stringDesconto.contains(",")) {
-                            stringDesconto = stringDesconto.replace(",", ".");
-                            desconto = Double.parseDouble(stringDesconto);
-                        } else {
-                            throw new NumberFormatException();
-                        }
+                    pedidoParaAlterar.setValorComanda(valorComanda);
+                    if (!campoDesconto.getText().isBlank()) {
+                        String decontoSemVirgula = campoDesconto.getText().replace(",", ".");
+                        valorDesconto = Double.parseDouble(decontoSemVirgula);
                     }
+                    pedidoParaAlterar.setDesconto(valorDesconto);
 
                     if (!items.isEmpty() && valorComanda == null) { // só itens na lista
-                        if (desconto != null) {
+                        if (valorDesconto != null) {
                             Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            total = truncate(somaDosItens - desconto);
+                            total = truncate(somaDosItens - valorDesconto);
                         } else {
                             Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
                             somaDosItens = truncate(somaDosItens);
                             total = truncate(somaDosItens);
                         }
                     } else if (items.isEmpty() && valorComanda != null) { // só a comanda
-                        if (desconto != null) {
-                            total = truncate(valorComanda - desconto);
+                        if (valorDesconto != null) {
+                            total = truncate(valorComanda - valorDesconto);
                         } else {
                             total = truncate(valorComanda);
                         }
                     } else { // os dois na lista
-                        if (desconto != null) {
+                        if (valorDesconto != null) {
                             Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            total = truncate((somaDosItens + valorComanda) - desconto);
+                            total = truncate((somaDosItens + valorComanda) - valorDesconto);
+                        } else {
+                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
+                            total = truncate(somaDosItens + valorComanda);
                         }
                     }
-    
-                    var pedido = new PedidoDTO(caixaId, items, comanda, valorComanda, desconto, total);
-                    boolean cadastrou = PedidoDAO.cadastrarNovoPedido(pedido);
-                    if (cadastrou) {
-                        controllerPai.atualizou();
-                        controllerPai.getNovoPedidoStage().close();
-                        Alert cadastrado = new Alert(AlertType.INFORMATION);
-                        cadastrado.setHeaderText("Pedido adicionado com sucesso");
-                        cadastrado.setTitle("Aviso");
-                        cadastrado.showAndWait();
+                    pedidoParaAlterar.setTotal(total);
+                    boolean alterou = PedidoDAO.atualizarPedido(pedidoParaAlterar);
+                    if (alterou) {
+                        mainController.pedidoAtualizado(pedidoParaAlterar);
+                        mainController.getAlterarPedidoStage().close();
+                        mainController.getListaDePedidos().getSelectionModel().clearSelection();
+                        Alert pedidoAtualizado = new Alert(AlertType.INFORMATION);
+                        pedidoAtualizado.setHeaderText("Pedido atualizado com sucesso");
+                        pedidoAtualizado.setTitle("Aviso");
+                        pedidoAtualizado.showAndWait();
                     } else {
                         throw new PersistenceException();
                     }
@@ -223,9 +209,50 @@ public class TelaNovoPedidoController implements Initializable {
         }
     }
 
-    public void setMainController(TelaOpController telaOpController) {
-        if (telaOpController != null) {
-            controllerPai = telaOpController;
+    public void setMainController(TelaOpController controller) {
+        if (controller != null) {
+            mainController = controller;
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> {
+            items = new ArrayList<>();
+            if (pedidoParaAlterar.getItensDoCardapio() != null) {
+                pedidoParaAlterar.getItensDoCardapio().forEach(i -> listaItensCardapio.getItems().add(i.getDescricaoItem()));
+                items.addAll(pedidoParaAlterar.getItensDoCardapio());
+                listaItensCardapio.refresh();
+            }
+            if (pedidoParaAlterar.getComanda() != null && !pedidoParaAlterar.getComanda().isBlank()) {
+                textoComanda.setText(pedidoParaAlterar.getComanda());
+            }
+            if (pedidoParaAlterar.getValorComanda() != null) {
+                String valor = Double.toString(pedidoParaAlterar.getValorComanda()).replace(".", ",");
+                if (valor.charAt(valor.length() - 2) == ',') {
+                    valor = valor + "0";
+                }
+                valorAdicional.setText(valor);
+            }
+            if (pedidoParaAlterar.getDesconto() != null) {
+                String valorDesconto = Double.toString(pedidoParaAlterar.getDesconto()).replace(".", ",");
+                if (valorDesconto.charAt(valorDesconto.length() - 2) == ',') {
+                    valorDesconto = valorDesconto + "0";
+                }
+                campoDesconto.setText(valorDesconto);
+            }
+        });
+    }
+
+    public void setRoot(Parent esteRoot) {
+        if (esteRoot != null) {
+            this.root = esteRoot;
+        }
+    }
+
+    public void setItem(CardapioDTO item) {
+        if (item != null) {
+            this.item = item;
         }
     }
 
@@ -236,12 +263,8 @@ public class TelaNovoPedidoController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        items = new ArrayList<>();
-    }
-
     public double truncate(double value) {
         return Math.round(value * 100) / 100d;
     }
+
 }

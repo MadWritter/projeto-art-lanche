@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS pedidos(
     comanda TEXT NULL,
     valor_comanda DOUBLE PRECISION NULL,
     desconto DOUBLE PRECISION NULL,
+    total DOUBLE PRECISION NULL,
     concluido BOOLEAN
 );
