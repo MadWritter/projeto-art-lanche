@@ -12,9 +12,6 @@ Windows:
 2) Execute o jar na raiz do projeto
 
 Linux:
-1) Execute mvn clean package no diretório do pom e copie a pasta libs e o jar para a pasta raiz do repositório
-2) Crie um arquivo chamado "connection.properties" em "config/database" com as configs de conexão:
-url=?
-usr=?
-pwd=?
-3) Execute o jar na raiz do projeto
+1) Dê permissão ao arquivo "configure.sh" com "sudo chmod +rwx configure.sh"
+2) Execute com "./configure.sh" e informe os dados de conexão com o banco
+3) Após ter preenchido corretamente, o projeto será iniciado automaticamente, caso erre os dados de conexão, basta executar o "configure.sh" novamente e repetir o processo.
