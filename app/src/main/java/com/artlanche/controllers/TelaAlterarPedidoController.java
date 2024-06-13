@@ -29,7 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class TelaAlterarPedidoController implements Initializable{
+public class TelaAlterarPedidoController implements Initializable {
 
     @FXML
     private TextField campoDesconto;
@@ -85,106 +85,109 @@ public class TelaAlterarPedidoController implements Initializable{
 
     @FXML
     void finalizar(ActionEvent event) {
-        Platform.runLater(() -> {
-            try {
-                boolean semItensOuComanda = textoComanda.getText().isBlank() && listaItensCardapio.getItems().isEmpty()
-                        ? true
-                        : false;
-                boolean comandaSemValorAdicional = !textoComanda.getText().isBlank() && valorAdicional.getText().isBlank()
-                        ? true
-                        : false;
-                boolean valorAdicionalSemComanda = !valorAdicional.getText().isBlank() && textoComanda.getText().isBlank()
-                        ? true
-                        : false;
-                if (semItensOuComanda) {
-                    Alert semItems = new Alert(AlertType.ERROR);
-                    semItems.setHeaderText("O pedido alterado está vazio!");
-                    semItems.setTitle("Aviso");
-                    semItems.showAndWait();
-                } else if (comandaSemValorAdicional) {
-                    Alert semItems = new Alert(AlertType.ERROR);
-                    semItems.setHeaderText("Preencha o valor da comanda");
-                    semItems.setTitle("Aviso");
-                    semItems.showAndWait();
-                } else if (valorAdicionalSemComanda) {
-                    Alert semItems = new Alert(AlertType.ERROR);
-                    semItems.setHeaderText("Adicione a descrição da comanda");
-                    semItems.setTitle("Aviso");
-                    semItems.showAndWait();
-                } else {
-                    String comanda = null;
-                    Double valorComanda = null;
-                    Double valorDesconto = null;
-                    Double total = null;
-                    if (items.isEmpty()) {
-                        items = null;
-                    }
-                    pedidoParaAlterar.setItems(items);
-                    if (!textoComanda.getText().isBlank()) {
-                        comanda = textoComanda.getText();
-                    }
-                    pedidoParaAlterar.setComanda(comanda);
-                    if (!valorAdicional.getText().isBlank()) {
-                        String valorSemVirgula = valorAdicional.getText().replace(",", ".");
-                        valorComanda = Double.parseDouble(valorSemVirgula);
-                    }
-                    pedidoParaAlterar.setValorComanda(valorComanda);
-                    if (!campoDesconto.getText().isBlank()) {
-                        String decontoSemVirgula = campoDesconto.getText().replace(",", ".");
-                        valorDesconto = Double.parseDouble(decontoSemVirgula);
-                    }
-                    pedidoParaAlterar.setDesconto(valorDesconto);
+        try {
+            boolean semItensOuComanda = textoComanda.getText().isBlank() && listaItensCardapio.getItems().isEmpty()
+                    ? true
+                    : false;
+            boolean comandaSemValorAdicional = !textoComanda.getText().isBlank() && valorAdicional.getText().isBlank()
+                    ? true
+                    : false;
+            boolean valorAdicionalSemComanda = !valorAdicional.getText().isBlank() && textoComanda.getText().isBlank()
+                    ? true
+                    : false;
+            if (semItensOuComanda) {
+                Alert semItems = new Alert(AlertType.ERROR);
+                semItems.setHeaderText("O pedido alterado está vazio!");
+                semItems.setTitle("Aviso");
+                semItems.showAndWait();
+            } else if (comandaSemValorAdicional) {
+                Alert semItems = new Alert(AlertType.ERROR);
+                semItems.setHeaderText("Preencha o valor da comanda");
+                semItems.setTitle("Aviso");
+                semItems.showAndWait();
+            } else if (valorAdicionalSemComanda) {
+                Alert semItems = new Alert(AlertType.ERROR);
+                semItems.setHeaderText("Adicione a descrição da comanda");
+                semItems.setTitle("Aviso");
+                semItems.showAndWait();
+            } else {
+                String comanda = null;
+                Double valorComanda = null;
+                Double valorDesconto = null;
+                Double total = null;
+                if (items.isEmpty()) {
+                    items = null;
+                    System.out.println("Lista de items está vazio e ficou nulo");
+                }
+                pedidoParaAlterar.setItems(items);
+                if (!textoComanda.getText().isBlank()) {
+                    comanda = textoComanda.getText();
+                }
+                pedidoParaAlterar.setComanda(comanda);
+                if (!valorAdicional.getText().isBlank()) {
+                    String valorSemVirgula = valorAdicional.getText().replace(",", ".");
+                    valorComanda = Double.parseDouble(valorSemVirgula);
+                }
+                pedidoParaAlterar.setValorComanda(valorComanda);
+                if (!campoDesconto.getText().isBlank()) {
+                    String decontoSemVirgula = campoDesconto.getText().replace(",", ".");
+                    valorDesconto = Double.parseDouble(decontoSemVirgula);
+                }
+                pedidoParaAlterar.setDesconto(valorDesconto);
 
-                    if (!items.isEmpty() && valorComanda == null) { // só itens na lista
-                        if (valorDesconto != null) {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            total = truncate(somaDosItens - valorDesconto);
-                        } else {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            somaDosItens = truncate(somaDosItens);
-                            total = truncate(somaDosItens);
-                        }
-                    } else if (items.isEmpty() && valorComanda != null) { // só a comanda
-                        if (valorDesconto != null) {
-                            total = truncate(valorComanda - valorDesconto);
-                        } else {
-                            total = truncate(valorComanda);
-                        }
-                    } else { // os dois na lista
-                        if (valorDesconto != null) {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            total = truncate((somaDosItens + valorComanda) - valorDesconto);
-                        } else {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            total = truncate(somaDosItens + valorComanda);
-                        }
-                    }
-                    pedidoParaAlterar.setTotal(total);
-                    boolean alterou = PedidoDAO.atualizarPedido(pedidoParaAlterar);
-                    if (alterou) {
-                        mainController.pedidoAtualizado(pedidoParaAlterar);
-                        mainController.getAlterarPedidoStage().close();
-                        mainController.getListaDePedidos().getSelectionModel().clearSelection();
-                        Alert pedidoAtualizado = new Alert(AlertType.INFORMATION);
-                        pedidoAtualizado.setHeaderText("Pedido atualizado com sucesso");
-                        pedidoAtualizado.setTitle("Aviso");
-                        pedidoAtualizado.showAndWait();
+                if (items != null && valorComanda == null) { // só itens na lista
+                    if (valorDesconto != null) {
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0,
+                                (a, b) -> a + b);
+                        total = truncate(somaDosItens - valorDesconto);
                     } else {
-                        throw new PersistenceException();
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0,
+                                (a, b) -> a + b);
+                        somaDosItens = truncate(somaDosItens);
+                        total = truncate(somaDosItens);
+                    }
+                } else if (item == null && valorComanda != null) { // só a comanda
+                    if (valorDesconto != null) {
+                        total = truncate(valorComanda - valorDesconto);
+                    } else {
+                        total = truncate(valorComanda);
+                    }
+                } else { // os dois na lista
+                    if (valorDesconto != null) {
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0,
+                                (a, b) -> a + b);
+                        total = truncate((somaDosItens + valorComanda) - valorDesconto);
+                    } else {
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0,
+                                (a, b) -> a + b);
+                        total = truncate(somaDosItens + valorComanda);
                     }
                 }
-            } catch (NumberFormatException e) {
-                Alert formatoIncorreto = new Alert(AlertType.ERROR);
-                formatoIncorreto.setHeaderText("O valor da comanda está em formato incorreto");
-                formatoIncorreto.setTitle("Aviso");
-                formatoIncorreto.showAndWait();
-            } catch (PersistenceException e) {
-                Alert formatoIncorreto = new Alert(AlertType.ERROR);
-                formatoIncorreto.setHeaderText("Erro ao cadastrar no banco de dados, tente novamente");
-                formatoIncorreto.setTitle("Aviso");
-                formatoIncorreto.showAndWait();
+                pedidoParaAlterar.setTotal(total);
+                boolean alterou = PedidoDAO.atualizarPedido(pedidoParaAlterar);
+                if (alterou) {
+                    mainController.pedidoAtualizado(pedidoParaAlterar);
+                    mainController.getAlterarPedidoStage().close();
+                    mainController.getListaDePedidos().getSelectionModel().clearSelection();
+                    Alert pedidoAtualizado = new Alert(AlertType.INFORMATION);
+                    pedidoAtualizado.setHeaderText("Pedido atualizado com sucesso");
+                    pedidoAtualizado.setTitle("Aviso");
+                    pedidoAtualizado.showAndWait();
+                } else {
+                    throw new PersistenceException();
+                }
             }
-        });
+        } catch (NumberFormatException e) {
+            Alert formatoIncorreto = new Alert(AlertType.ERROR);
+            formatoIncorreto.setHeaderText("O valor da comanda está em formato incorreto");
+            formatoIncorreto.setTitle("Aviso");
+            formatoIncorreto.showAndWait();
+        } catch (PersistenceException e) {
+            Alert formatoIncorreto = new Alert(AlertType.ERROR);
+            formatoIncorreto.setHeaderText("Erro ao cadastrar no banco de dados, tente novamente");
+            formatoIncorreto.setTitle("Aviso");
+            formatoIncorreto.showAndWait();
+        }
     }
 
     @FXML
@@ -196,7 +199,8 @@ public class TelaAlterarPedidoController implements Initializable{
             alerta.setTitle("Aviso");
             Optional<ButtonType> resultado = alerta.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                CardapioDTO dtoParaExcluir = items.stream().filter(i -> i.getDescricaoItem().equals(itemSelecionado)).collect(Collectors.toList()).get(0);
+                CardapioDTO dtoParaExcluir = items.stream().filter(i -> i.getDescricaoItem().equals(itemSelecionado))
+                        .collect(Collectors.toList()).get(0);
                 items.remove(dtoParaExcluir);
                 listaItensCardapio.getItems().remove(itemSelecionado);
                 listaItensCardapio.refresh();
@@ -220,7 +224,8 @@ public class TelaAlterarPedidoController implements Initializable{
         Platform.runLater(() -> {
             items = new ArrayList<>();
             if (pedidoParaAlterar.getItensDoCardapio() != null) {
-                pedidoParaAlterar.getItensDoCardapio().forEach(i -> listaItensCardapio.getItems().add(i.getDescricaoItem()));
+                pedidoParaAlterar.getItensDoCardapio()
+                        .forEach(i -> listaItensCardapio.getItems().add(i.getDescricaoItem()));
                 items.addAll(pedidoParaAlterar.getItensDoCardapio());
                 listaItensCardapio.refresh();
             }

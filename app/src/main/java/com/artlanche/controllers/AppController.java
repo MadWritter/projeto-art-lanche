@@ -128,6 +128,7 @@ public class AppController {
                         FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
                         root = fxml.load();
                         telaPrincipalController = fxml.getController();
+                        telaPrincipalController.setRoot(root);
                         telaPrincipalController.setUsuarioAtual(usuarioConsultado);
                     } catch (IOException e) {
                         throw new RuntimeException("Não foi possível carregar o layout TelaPrincipal.fxml" + e.getMessage());

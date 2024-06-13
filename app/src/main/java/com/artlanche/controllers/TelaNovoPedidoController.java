@@ -57,7 +57,6 @@ public class TelaNovoPedidoController implements Initializable {
 
     private Parent esteRoot;
 
-
     public void setItem(CardapioDTO item) {
         if (item != null) {
             this.item = item;
@@ -99,12 +98,14 @@ public class TelaNovoPedidoController implements Initializable {
                 boolean semItensOuComanda = textoComanda.getText().isBlank() && listaItensCardapio.getItems().isEmpty()
                         ? true
                         : false;
-                boolean comandaSemValorAdicional = !textoComanda.getText().isBlank() && valorAdicional.getText().isBlank()
-                        ? true
-                        : false;
-                boolean valorAdicionalSemComanda = !valorAdicional.getText().isBlank() && textoComanda.getText().isBlank()
-                        ? true
-                        : false;
+                boolean comandaSemValorAdicional = !textoComanda.getText().isBlank()
+                        && valorAdicional.getText().isBlank()
+                                ? true
+                                : false;
+                boolean valorAdicionalSemComanda = !valorAdicional.getText().isBlank()
+                        && textoComanda.getText().isBlank()
+                                ? true
+                                : false;
                 if (semItensOuComanda) {
                     Alert semItems = new Alert(AlertType.ERROR);
                     semItems.setHeaderText("Adicione itens do cardápio ou uma comanda");
@@ -121,7 +122,7 @@ public class TelaNovoPedidoController implements Initializable {
                     semItems.setTitle("Aviso");
                     semItems.showAndWait();
                 } else {
-    
+
                     // comanda e valor da comanda e desconto
                     String comanda = null;
                     Double valorComanda = null;
@@ -131,7 +132,7 @@ public class TelaNovoPedidoController implements Initializable {
                     if (textoComanda != null && !textoComanda.getText().isBlank()) {
                         comanda = textoComanda.getText();
                     }
-    
+
                     if (valorAdicional != null && !valorAdicional.getText().isBlank()) {
                         String valorAdicionalString = valorAdicional.getText();
                         if (valorAdicionalString.contains(",")) {
@@ -141,7 +142,7 @@ public class TelaNovoPedidoController implements Initializable {
                             throw new NumberFormatException();
                         }
                     }
-    
+
                     if (campoDesconto != null && !campoDesconto.getText().isBlank()) {
                         String stringDesconto = campoDesconto.getText();
                         if (stringDesconto.contains(",")) {
@@ -153,12 +154,10 @@ public class TelaNovoPedidoController implements Initializable {
                     }
 
                     if (!items.isEmpty() && valorComanda == null) { // só itens na lista
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, Double::sum);
                         if (desconto != null) {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
                             total = truncate(somaDosItens - desconto);
                         } else {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
-                            somaDosItens = truncate(somaDosItens);
                             total = truncate(somaDosItens);
                         }
                     } else if (items.isEmpty() && valorComanda != null) { // só a comanda
@@ -167,13 +166,15 @@ public class TelaNovoPedidoController implements Initializable {
                         } else {
                             total = truncate(valorComanda);
                         }
-                    } else { // os dois na lista
+                    } else if (!items.isEmpty() && valorComanda != null) { // os dois na lista
+                        Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, Double::sum);
                         if (desconto != null) {
-                            Double somaDosItens = items.stream().map(i -> i.getValorPorUnidade()).reduce(0.0, (a, b) -> a + b);
                             total = truncate((somaDosItens + valorComanda) - desconto);
+                        } else {
+                            total = truncate(somaDosItens + valorComanda);
                         }
                     }
-    
+
                     var pedido = new PedidoDTO(caixaId, items, comanda, valorComanda, desconto, total);
                     boolean cadastrou = PedidoDAO.cadastrarNovoPedido(pedido);
                     if (cadastrou) {
@@ -210,7 +211,8 @@ public class TelaNovoPedidoController implements Initializable {
             alerta.setTitle("Aviso");
             Optional<ButtonType> resultado = alerta.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                CardapioDTO dtoParaExcluir = items.stream().filter(i -> i.getDescricaoItem().equals(itemSelecionado)).collect(Collectors.toList()).get(0);
+                CardapioDTO dtoParaExcluir = items.stream().filter(i -> i.getDescricaoItem().equals(itemSelecionado))
+                        .collect(Collectors.toList()).get(0);
                 items.remove(dtoParaExcluir);
                 listaItensCardapio.getItems().remove(itemSelecionado);
                 listaItensCardapio.refresh();

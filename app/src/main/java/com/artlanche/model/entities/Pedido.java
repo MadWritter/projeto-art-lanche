@@ -67,6 +67,10 @@ public class Pedido {
         }
     }
 
+    public void setItensCardapioId(Long[] ids) {
+        this.itensCardapioId = ids;
+    }
+
     public void concluirPedido() {
         this.concluido = true;
     }

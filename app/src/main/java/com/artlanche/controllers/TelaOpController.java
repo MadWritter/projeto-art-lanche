@@ -218,7 +218,7 @@ public class TelaOpController implements Initializable {
                         } else {
                             FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
                             Parent voltar = fxml.load();
-    
+
                             App.getTela().setScene(new Scene(voltar));
                             App.getTela().centerOnScreen();
                         }
@@ -290,8 +290,8 @@ public class TelaOpController implements Initializable {
             campoValorTexto = campoValor.getText();
             campoDescontoTexto = campoDesconto.getText();
             campoTotalTexto = campoTotal.getText();
-            atualizou();
             caixaId = telaPrincipalController.getCaixaId();
+            atualizou();
             String usuarioAtual = telaPrincipalController.getUsuarioAtual().getNome();
             String textoLabel = labelUsuario.getText();
             labelUsuario.setText(textoLabel + " " + usuarioAtual);
@@ -466,19 +466,17 @@ public class TelaOpController implements Initializable {
     }
 
     public void atualizou() {
-        Platform.runLater(() -> {
-            pedidos = PedidoDAO.getListaPedidosNaoConcluidos(caixaId);
-            if (pedidos != null) {
-                listaDePedidos.getItems().clear();
-                List<String> idPedidos = pedidos.stream().map(p -> p.getId()).map(id -> Long.toString(id))
-                        .collect(Collectors.toList());
-                listaDePedidos.getItems().addAll(idPedidos);
-            } else {
-                listaDePedidos.getSelectionModel().clearSelection();
-                listaDePedidos.getItems().clear();
-                listaDePedidos.refresh();
-            }
-        });
+        pedidos = PedidoDAO.getListaPedidosNaoConcluidos(caixaId);
+        if (pedidos != null && !pedidos.isEmpty()) {
+            listaDePedidos.getItems().clear();
+            List<String> idPedidos = pedidos.stream().map(p -> p.getId()).map(id -> Long.toString(id))
+                    .collect(Collectors.toList());
+            listaDePedidos.getItems().addAll(idPedidos);
+        } else {
+            listaDePedidos.getSelectionModel().clearSelection();
+            listaDePedidos.getItems().clear();
+            listaDePedidos.refresh();
+        }
     }
 
     public void pedidoAtualizado(PedidoDTO pedidoAtualizado) {

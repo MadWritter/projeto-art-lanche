@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -63,6 +64,7 @@ public class TelaPrincipalController implements Initializable {
 
     private int contador = 0;
 
+    private Parent root;
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
         FXMLLoader novoCaixa = new FXMLLoader(Layout.loader("AberturaCaixa.fxml"));
@@ -73,6 +75,9 @@ public class TelaPrincipalController implements Initializable {
 
         stage = new Stage();
         stage.setScene(new Scene(root));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(this.root.getScene().getWindow());
+        stage.setTitle("Novo caixa");
         stage.show();
     }
 
@@ -151,6 +156,12 @@ public class TelaPrincipalController implements Initializable {
                     throw new RuntimeException(e);
                 }
             });
+        }
+    }
+
+    public void setRoot(Parent root) {
+        if (root != null) {
+            this.root = root;
         }
     }
 

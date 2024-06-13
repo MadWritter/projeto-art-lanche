@@ -51,13 +51,17 @@ public class PedidoDTO {
     }
 
     private List<CardapioDTO> associarListaCardapio(Long[] itensCardapioId) {
-        List<CardapioDTO> lista = new ArrayList<>();
-        for(int i = 0; i < itensCardapioId.length; i++) {
-            long indice = itensCardapioId[i];
-            CardapioDTO cardapio = CardapioDAO.getCardapioById(indice);
-            lista.add(cardapio);
+        if (itensCardapioId != null) {
+            List<CardapioDTO> lista = new ArrayList<>();
+            for(int i = 0; i < itensCardapioId.length; i++) {
+                long indice = itensCardapioId[i];
+                CardapioDTO cardapio = CardapioDAO.getCardapioById(indice);
+                lista.add(cardapio);
+            }
+            return lista;
+        } else {
+            return null;
         }
-        return lista;
     }
 
     public void setItems(List<CardapioDTO> items) {

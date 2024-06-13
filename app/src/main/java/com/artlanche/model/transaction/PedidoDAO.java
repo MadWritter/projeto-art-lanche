@@ -50,6 +50,7 @@ public class PedidoDAO {
             query.setParameter("caixaId", caixaId);
             List<Pedido> consulta = query.getResultList();
             if (consulta != null && !consulta.isEmpty()) {
+                System.out.println("consulta não está vazia");
                 for(int i = 0; i < consulta.size(); i++) {
                     PedidoDTO pedido = new PedidoDTO(consulta.get(i));
                     lista.add(pedido);
@@ -59,7 +60,7 @@ public class PedidoDAO {
                 return null;
             }
         } catch(Exception e) {
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -88,7 +89,8 @@ public class PedidoDAO {
             em.getTransaction().begin();
             Pedido consulta = em.find(Pedido.class, pedido.getId());
             if (consulta != null) {
-                consulta.associarIDItemCardapio(pedido.getItensDoCardapio());
+                Long[] ids = consulta.associarIDItemCardapio(pedido.getItensDoCardapio());
+                consulta.setItensCardapioId(ids);
                 consulta.setTextoComanda(pedido.getComanda());
                 consulta.setValorComanda(pedido.getValorComanda());
                 consulta.setDesconto(pedido.getDesconto());

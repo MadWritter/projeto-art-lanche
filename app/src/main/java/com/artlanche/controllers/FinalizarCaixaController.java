@@ -1,14 +1,17 @@
 package com.artlanche.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.artlanche.App;
+import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.dtos.PedidoDTO;
+import com.artlanche.model.dtos.PrecoCardapioDTO;
 import com.artlanche.model.transaction.CaixaDAO;
+import com.artlanche.model.transaction.CardapioDAO;
+import com.artlanche.model.transaction.PrecoCardapioDAO;
 import com.artlanche.view.tools.Layout;
 
 import javafx.event.ActionEvent;
@@ -44,15 +47,27 @@ public class FinalizarCaixaController {
         if (!campoNome.getText().isBlank() && dataFechamento.getValue() != null) {
             String descricao = campoNome.getText();
             Long caixaID = telaOp.getCaixaId();
-            Double valorFinal = pedidos.stream().map(p -> p.getTotal()).reduce(0.0, (a, b) -> a + b);
+            Double valorFinal;
+            if (pedidos.size() > 1) {
+                System.out.println("caiu no if");
+                valorFinal = pedidos.stream().map(p -> p.getTotal()).reduce(0.0, (a, b) -> a + b);
+            } else {
+                valorFinal = pedidos.get(0).getTotal();
+            }
             valorFinal = truncate(valorFinal);
-            LocalDate dataFechamento = this.dataFechamento.getValue();
             String usuarioFechamento = telaOp.getTelaPrincipalController().getUsuarioAtual().getNome();
             List<Long> ids = pedidos.stream().map(p -> p.getId()).collect(Collectors.toList());
-            boolean fechou = CaixaDAO.fecharCaixa(caixaID, descricao, valorFinal, dataFechamento, usuarioFechamento,
+            boolean fechou = CaixaDAO.fecharCaixa(caixaID, descricao, valorFinal, dataFechamento.getValue(), usuarioFechamento,
                     ids);
             if (fechou) {
-                // TODO adicionar os ids e os valores do dia para uma tabela de controle
+                List<CardapioDTO> itensCardapio = CardapioDAO.getListaCardapio();
+                if (itensCardapio != null && !itensCardapio.isEmpty()) {
+                    for (CardapioDTO pedido : itensCardapio) {
+                        PrecoCardapioDTO itemAtual = new PrecoCardapioDTO(pedido.getId(), pedido.getDescricaoItem(),
+                                pedido.getValorPorUnidade(), dataFechamento.getValue());
+                        PrecoCardapioDAO.cadastrarValorCardapio(itemAtual);
+                    }
+                }
                 Alert finalizado = new Alert(AlertType.CONFIRMATION);
                 finalizado.setHeaderText("Finalizado com sucesso, encerrar?");
                 finalizado.setTitle("Aviso");
@@ -60,6 +75,7 @@ public class FinalizarCaixaController {
                 if (escolha.isPresent() && escolha.get() == ButtonType.OK) {
                     System.exit(0);
                 } else {
+                    telaOp.getFinalizarCaixaStage().close();
                     FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
                     Parent telap = fxml.load();
 

@@ -24,7 +24,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#fecharPrograma" text="Encerrar Programa" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Editar">
+            <Menu mnemonicParsing="false" text="Pedidos">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#novoPedido" text="Novo Pedido" />
                   <MenuItem mnemonicParsing="false" onAction="#alterarPedido" text="Alterar Pedido" />
