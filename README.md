@@ -18,3 +18,9 @@ Linux:
 2) Execute com "./configure.sh" e informe os dados de conexão com o banco.
 3) Após ter preenchido corretamente, o projeto será iniciado automaticamente, caso erre os dados de conexão, basta executar o "configure.sh" novamente e repetir o processo.
 4) O Projeto ficará na pasta build, basta executar o jar com "java -jar app-1.0.jar"
+
+Correções Previstas:
+1) Distribuir as regras da aplicação em serviços, pois devido ao prazo, foi inserida diretamente nos controllers
+2) Realizar testes unitários para assegurar que os valores corretos estão sendo persistidos, apesar
+de em todos os testes realizados, nenhum problema deste ter sido identificado
+3) Corrigir o mapeamento das entidades JPA
