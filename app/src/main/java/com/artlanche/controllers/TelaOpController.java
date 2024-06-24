@@ -144,8 +144,15 @@ public class TelaOpController implements Initializable {
     }
 
     @FXML
-    void contato(ActionEvent event) {
-
+    void contato(ActionEvent event) throws Exception{
+        Parent root = FXMLLoader.load(Layout.loader("Contato.fxml"));
+        
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Contato");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(esteRoot.getScene().getWindow());
+        stage.showAndWait();
     }
 
     @FXML
