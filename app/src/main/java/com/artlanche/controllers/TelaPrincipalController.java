@@ -65,6 +65,7 @@ public class TelaPrincipalController implements Initializable {
     private int contador = 0;
 
     private Parent root;
+    
     @FXML
     void novoCaixa(ActionEvent event) throws Exception {
         FXMLLoader novoCaixa = new FXMLLoader(Layout.loader("AberturaCaixa.fxml"));

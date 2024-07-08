@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.artlanche.model.dtos.CardapioDTO;
 import com.artlanche.model.dtos.PedidoDTO;
+import com.artlanche.model.transaction.CardapioDAO;
 import com.artlanche.model.transaction.PedidoDAO;
 import com.artlanche.view.tools.Layout;
 
@@ -75,18 +76,26 @@ public class TelaNovoPedidoController implements Initializable {
 
     @FXML
     void adicionarItem(ActionEvent event) throws Exception {
-        FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaCardapioPedido.fxml"));
-        Parent root = fxml.load();
-
-        cardapioPedidoController = fxml.getController();
-        cardapioPedidoController.setMainController(this);
-
-        stageCardapioPedidoController = new Stage();
-        stageCardapioPedidoController.setScene(new Scene(root));
-        stageCardapioPedidoController.initModality(Modality.WINDOW_MODAL);
-        stageCardapioPedidoController.initOwner(esteRoot.getScene().getWindow());
-        stageCardapioPedidoController.setTitle("Adicionar item do cardápio");
-        stageCardapioPedidoController.show();
+        var itensCardapio = CardapioDAO.getListaCardapio();
+        if (itensCardapio != null && !itensCardapio.isEmpty()) {
+            FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaCardapioPedido.fxml"));
+            Parent root = fxml.load();
+    
+            cardapioPedidoController = fxml.getController();
+            cardapioPedidoController.setMainController(this);
+    
+            stageCardapioPedidoController = new Stage();
+            stageCardapioPedidoController.setScene(new Scene(root));
+            stageCardapioPedidoController.initModality(Modality.WINDOW_MODAL);
+            stageCardapioPedidoController.initOwner(esteRoot.getScene().getWindow());
+            stageCardapioPedidoController.setTitle("Adicionar item do cardápio");
+            stageCardapioPedidoController.show();
+        } else {
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setHeaderText("Adicione itens no cardápio primeiro!");
+            alerta.setTitle("Aviso");
+            alerta.showAndWait();
+        }
     }
 
     @FXML

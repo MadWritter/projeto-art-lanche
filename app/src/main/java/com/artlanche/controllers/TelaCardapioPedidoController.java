@@ -74,12 +74,6 @@ public class TelaCardapioPedidoController implements Initializable {
                     .collect(Collectors.toList());
             itensCardapio.getItems().addAll(descricao);
             itensCardapio.refresh();
-        } else {
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setHeaderText("Adicione itens no cardápio primeiro!");
-            alerta.setTitle("Aviso");
-            alerta.showAndWait();
-            novoPedidoController.getStageCardapioPedidoController().close();
         }
 
         itensCardapio.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {

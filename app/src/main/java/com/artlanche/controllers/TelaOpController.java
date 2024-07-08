@@ -216,19 +216,7 @@ public class TelaOpController implements Initializable {
                     boolean finalizou = CaixaDAO.fecharCaixa(caixaId, null, null, null,
                             telaPrincipalController.getUsuarioAtual().getNome(), null);
                     if (finalizou) {
-                        Alert fecharPrograma = new Alert(AlertType.CONFIRMATION);
-                        fecharPrograma.setHeaderText("Encerrar?");
-                        fecharPrograma.setTitle("Aviso");
-                        Optional<ButtonType> encerrar = fecharPrograma.showAndWait();
-                        if (encerrar.isPresent() && encerrar.get() == ButtonType.OK) {
-                            System.exit(0);
-                        } else {
-                            FXMLLoader fxml = new FXMLLoader(Layout.loader("TelaPrincipal.fxml"));
-                            Parent voltar = fxml.load();
-
-                            App.getTela().setScene(new Scene(voltar));
-                            App.getTela().centerOnScreen();
-                        }
+                        System.exit(0);
                     }
                 }
             }
